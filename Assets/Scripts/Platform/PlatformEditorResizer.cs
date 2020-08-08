@@ -30,7 +30,6 @@ public class PlatformEditorResizer : MonoBehaviour
 
     void ChangeSize()
     {
-        Log.Message("Изменение размера платформы.");
         transform.localScale = new Vector2(sizeX, sizeY);
     }
 }
