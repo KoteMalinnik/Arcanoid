@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlatformEditorResizer : MonoBehaviour
+public class PlatformSizeController : MonoBehaviour
 {
 	#region Fields
 
