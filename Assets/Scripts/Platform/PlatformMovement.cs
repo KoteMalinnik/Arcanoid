@@ -19,6 +19,10 @@ public class PlatformMovement : MonoBehaviour
 	[SerializeField] KeyCode keyToLeft = KeyCode.A;
 	[SerializeField] KeyCode keyToRight = KeyCode.D;
 
+	[Header("Ограничения")]
+
+	[SerializeField] float maxDistanceFormCenter = 5.0f;
+
 	Transform cachedTransform = null;
 
 	#endregion
@@ -44,6 +48,8 @@ public class PlatformMovement : MonoBehaviour
 
 		if (keyToLeft == KeyCode.None) Log.Warning("Клавиша перемещения платформы влево не назначена.");
 		if (keyToRight == KeyCode.None) Log.Warning("Клавиша перемещения платформы вправо не назначена.");
+
+		maxDistanceFormCenter = Extencions.MinThreshold(maxDistanceFormCenter, 0);
 	}
 
     private void Update()
@@ -61,6 +67,10 @@ public class PlatformMovement : MonoBehaviour
 
 		if (inverce) deltaPosition = -deltaPosition;
 
-		transform.position = new Vector2(transform.position.x + deltaPosition, transform.position.y);
+		var newPosition = new Vector2(transform.position.x + deltaPosition, transform.position.y);
+		
+		if (Mathf.Abs(newPosition.x) > maxDistanceFormCenter) return;
+
+		transform.position = newPosition;
 	}
 }
