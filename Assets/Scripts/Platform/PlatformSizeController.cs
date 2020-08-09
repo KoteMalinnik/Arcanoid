@@ -9,13 +9,6 @@ public class PlatformSizeController : MonoBehaviour
 
     #endregion
 
-    #region Properties
-
-    public float SizeX => sizeX;
-    public float SizeY => sizeY;
-
-    #endregion
-
     #region MonoBehaviour Callbacks
 
     private void OnValidate()
@@ -24,6 +17,11 @@ public class PlatformSizeController : MonoBehaviour
         sizeY = Extencions.MinThreshold(sizeY, 0.05f);
 
         ChangeSize();
+    }
+
+    private void Awake()
+    {
+        Destroy(this);
     }
 
     #endregion
