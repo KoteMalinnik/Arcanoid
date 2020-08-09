@@ -15,7 +15,7 @@ public class BallMovement : MonoBehaviour
 
     #region Properties
 
-    new Transform transform
+    public new Transform transform
     {
         get
         {
