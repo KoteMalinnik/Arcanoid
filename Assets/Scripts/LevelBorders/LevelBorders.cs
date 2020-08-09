@@ -2,12 +2,10 @@
 
 public static class LevelBorders
 {
-	#region Fields
+    #region Fields
 
-    static float leftBorder = 0;
-    static float rightBorder = 0;
-    static float topBorder = 0;
-    static float bottomBorder = 0;
+    static Vector2 _point_TopLeft = Vector2.zero;
+    static Vector2 _point_BottomRight = Vector2.zero;
 
     static bool initialized = false; //нет необходимости каждый новый уровень пересчитывать одно и то же.
 
@@ -15,10 +13,8 @@ public static class LevelBorders
 
     #region Properties
 
-    public static float border_Left => leftBorder;
-    public static float border_Right => rightBorder;
-    public static float border_Top => topBorder;
-    public static float border_Bottom => bottomBorder;
+    public static Vector2 point_TopLeft => _point_TopLeft;
+    public static Vector2 point_BottomRight => _point_BottomRight;
 
     #endregion
 
@@ -32,24 +28,15 @@ public static class LevelBorders
             return;
         }
 
-        GetBorders(out leftBorder, out topBorder, screenHeight: Screen.height);
-        GetBorders(out rightBorder, out bottomBorder, screenWidth: Screen.width);
+        _point_TopLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0));
+        _point_BottomRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0));
 
         initialized = true;
 
-        Log.Message(
-            $"Левый край: {leftBorder}." +
-            $"Правый край: {rightBorder}." +
-            $"Верхний край: {topBorder}." +
-            $"Нижний край: {bottomBorder}."
+        Log.Message
+            (
+            $"Левый верхний край: {_point_TopLeft}." +
+            $"Правый нижний край: {_point_BottomRight}."
             );
-    }
-
-    static void GetBorders(out float borderX, out float borderY, float screenWidth = 0, float screenHeight = 0)
-    {
-        Vector2 screenCornerPoint = Camera.main.ScreenToWorldPoint(new Vector3(screenWidth, screenHeight, 0));
-
-        borderX = screenCornerPoint.x;
-        borderY = screenCornerPoint.y;
     }
 }

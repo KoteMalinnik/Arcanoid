@@ -2,23 +2,26 @@
 
 public static class PlatformBorders
 {
-	#region Properties
+	#region Fields
 
-	public static float border_Left { get; private set; } = 0;
-	public static float border_Right { get; private set; } = 0;
-	public static float border_Top { get; private set; } = 0;
+	static Vector2 _point_TopLeft = Vector2.zero;
+	static Vector2 _point_BottomRight = Vector2.zero;
 
 	#endregion
 
-	public static void SetTopBorder(Transform platformTransform)
-    {
-		//устанавливается один раз, т.к. платформа перемещается только горизонтально.
-		border_Top = platformTransform.position.y + platformTransform.localScale.y / 2;
-    }
+	#region Properties
 
-	public static void UpdateSideBorders(Transform platformTransform)
+	public static Vector2 point_TopLeft => _point_TopLeft;
+	public static Vector2 point_BottomRight => _point_BottomRight;
+
+	#endregion
+
+	public static void UpdateBorders(Transform platformTransform)
     {
-		border_Left = platformTransform.position.x - platformTransform.localScale.x / 2;
-		border_Right = platformTransform.position.x + platformTransform.localScale.x / 2;
+		_point_TopLeft.y = platformTransform.position.y + platformTransform.localScale.y / 2;
+		_point_TopLeft.x = platformTransform.position.x - platformTransform.localScale.x / 2;
+
+		_point_BottomRight.y = platformTransform.position.y - platformTransform.localScale.y / 2;
+		_point_BottomRight.x = platformTransform.position.x + platformTransform.localScale.x / 2;
 	}
 }
