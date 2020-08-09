@@ -62,7 +62,7 @@ public class BallBorderIntersectionChecker : MonoBehaviour
         if (LeftBorderIntersection || RightBorderIntersection || TopBorderIntersection || BottomBorderIntersection)
         {
             Log.Message($"Пересечение границы. Позиция шара: {transform.position}.");
-            OnBorderIntersection?.Invoke(transform.parent.GetComponentInChildren<BallMovement>());
+            OnBorderIntersection?.Invoke(transform.GetComponentInChildren<BallMovement>());
         }
     }
 
