@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class ScreenBorders
+public class ScreenBorders : MonoBehaviour
 {
     #region Fields
 
@@ -14,6 +14,12 @@ public static class ScreenBorders
 
     #endregion
 
+    private void Awake()
+    {
+        Initialize();
+        Destroy(gameObject);
+    }
+
     public static void Initialize()
     {
         Log.Message("Установка границ экрана.");
@@ -24,7 +30,7 @@ public static class ScreenBorders
             return;
         }
 
-        border.UpdateBorder(Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)));
+        border = new RectBorder(Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)));
 
         Log.Message
             (

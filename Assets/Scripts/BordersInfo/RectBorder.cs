@@ -14,6 +14,16 @@ public class RectBorder
 
 	#endregion
 
+	public RectBorder(Transform transform)
+    {
+		UpdateBorder(transform);
+	}
+
+	public RectBorder(Vector2 topLeftPoint)
+	{
+		UpdateBorder(topLeftPoint);
+	}
+
 	public void UpdateBorder(Transform transform)
 	{
 		_TopLeftPoint.x = transform.position.x - transform.localScale.x / 2;
