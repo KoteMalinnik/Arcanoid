@@ -20,12 +20,14 @@ public class PlatformController : MonoBehaviour
 
 	private void OnEnable()
 	{
-		ScreenBorder.OnScreenBorderCollision += StopMovementAtDirection;
+		ScreenBorder.OnScreenBorderCollisionEnter += StopMovementAtDirection;
+		ScreenBorder.OnScreenBorderCollisionExit += AllowMovementAtAllDirections;
 	}
 
 	private void OnDisable()
 	{
-		ScreenBorder.OnScreenBorderCollision -= StopMovementAtDirection;
+		ScreenBorder.OnScreenBorderCollisionEnter -= StopMovementAtDirection;
+		ScreenBorder.OnScreenBorderCollisionExit -= AllowMovementAtAllDirections;
 	}
 
 	#endregion
@@ -46,5 +48,12 @@ public class PlatformController : MonoBehaviour
 			movement.AllowMovement(false, true);
 			return;
 		}
+	}
+
+	void AllowMovementAtAllDirections(MoveableBorder border)
+    {
+		if (border.gameObject != gameObject) return;
+
+		movement.AllowMovement(true, true);
 	}
 }
