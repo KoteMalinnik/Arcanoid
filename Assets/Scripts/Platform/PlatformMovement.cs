@@ -54,13 +54,13 @@ public class PlatformMovement : MonoBehaviour
 
     private void Start()
     {
-		LevelBorders.Initialize();
+		ScreenBorders.Initialize();
 
 		//не недо проводить одни и те же рассчеты в *BorderIntersection-свойствах
 		float platformHalfSizeX = transform.localScale.x / 2;
 
-		threshold_Left = LevelBorders.point_TopLeft.x + platformHalfSizeX;
-		threshold_Right = LevelBorders.point_BottomRight.x - platformHalfSizeX;
+		threshold_Left = ScreenBorders.point_TopLeft.x + platformHalfSizeX;
+		threshold_Right = ScreenBorders.point_BottomRight.x - platformHalfSizeX;
 		
 		PlatformBorders.UpdateBorders(transform);
 	}

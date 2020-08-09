@@ -45,16 +45,16 @@ public class BallBorderIntersectionChecker : MonoBehaviour
 
     private void Start()
     {
-        LevelBorders.Initialize();
+        ScreenBorders.Initialize();
 
         //не недо проводить одни и те же рассчеты в *BorderIntersection-свойствах
         Vector2 ballHalfSize = transform.localScale / 2;
         
-        threshold_Left = LevelBorders.point_TopLeft.x + ballHalfSize.x;
-        threshold_Top = LevelBorders.point_TopLeft.y - ballHalfSize.y;
+        threshold_Left = ScreenBorders.point_TopLeft.x + ballHalfSize.x;
+        threshold_Top = ScreenBorders.point_TopLeft.y - ballHalfSize.y;
 
-        threshold_Right = LevelBorders.point_BottomRight.x - ballHalfSize.x;
-        threshold_Bottom = LevelBorders.point_BottomRight.y + ballHalfSize.y;
+        threshold_Right = ScreenBorders.point_BottomRight.x - ballHalfSize.x;
+        threshold_Bottom = ScreenBorders.point_BottomRight.y + ballHalfSize.y;
     }
 
     private void Update()
