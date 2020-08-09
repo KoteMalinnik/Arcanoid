@@ -4,25 +4,13 @@ public class BallMovement : MonoBehaviour
 {
 	#region Fields
 
-	[SerializeField] bool canMove = false;
+	[SerializeField] bool allowMovement = false;
     [Space(10)]
     [SerializeField] float movementSpeed = 1.0f;
 
     Vector3 direction = Vector2.down;
-    Transform cachedTransform = null;
 
-    #endregion
-
-    #region Properties
-
-    new Transform transform
-    {
-        get
-        {
-            if (cachedTransform == null) cachedTransform = base.transform.parent;
-            return cachedTransform;
-        }
-    }
+    new Transform transform = null;
 
     #endregion
 
@@ -33,9 +21,14 @@ public class BallMovement : MonoBehaviour
         movementSpeed = Extencions.MinThreshold(movementSpeed, 0);
     }
 
+    private void Awake()
+    {
+        transform = base.transform;
+    }
+
     private void Update()
     {
-        if (canMove) Move();
+        if (allowMovement) Move();
     }
 
     #endregion
@@ -49,9 +42,9 @@ public class BallMovement : MonoBehaviour
     /// Установит разрешения движения шара. Если true, то шар будет двигаться.
     /// </summary>
     /// <param name="premission">Разрешение движения.</param>
-    public void SetMovementPremission(bool premission)
+    public void AllowMovement(bool premission)
     {
-        canMove = premission;
+        allowMovement = premission;
     }
 
     /// <summary>

@@ -46,10 +46,9 @@ public class BallLaunching : MonoBehaviour
     {
         Log.Message("Запуск шара.");
 
-        var ballMovement = transform.parent.GetComponentInChildren<BallMovement>();
+        var ballMovement = transform.GetComponent<BallMovement>();
 
         BallMovementDirections targetDirection = BallMovementDirections.ToLeftTop;
-
         switch (onLaunchDirection)
         {
             case OnLaunchDirection.ToLeftTop:
@@ -61,7 +60,7 @@ public class BallLaunching : MonoBehaviour
         }
 
         ballMovement.SetDirection(targetDirection);
-        ballMovement.SetMovementPremission(true);
+        ballMovement.AllowMovement(true);
     }
     #endregion
 }
