@@ -4,24 +4,18 @@ public static class PlatformBorders
 {
 	#region Fields
 
-	static Vector2 _point_TopLeft = Vector2.zero;
-	static Vector2 _point_BottomRight = Vector2.zero;
+	static RectBorder border = null;
 
 	#endregion
 
 	#region Properties
 
-	public static Vector2 point_TopLeft => _point_TopLeft;
-	public static Vector2 point_BottomRight => _point_BottomRight;
+	public static Vector2 TopLeftPoint => border.TopLeftPoint;
 
 	#endregion
 
-	public static void UpdateBorders(Transform platformTransform)
+	public static void UpdateBorder(Transform platformTransform)
     {
-		_point_TopLeft.y = platformTransform.position.y + platformTransform.localScale.y / 2;
-		_point_TopLeft.x = platformTransform.position.x - platformTransform.localScale.x / 2;
-
-		_point_BottomRight.y = platformTransform.position.y - platformTransform.localScale.y / 2;
-		_point_BottomRight.x = platformTransform.position.x + platformTransform.localScale.x / 2;
+		border.UpdateBorder(platformTransform);
 	}
 }
