@@ -54,19 +54,25 @@ public class BallMovement : MonoBehaviour
     /// <summary>
     /// Изменит направление движения шара.
     /// </summary>
-    /// <param name="newDirection">Направление.</param>
-    public void ChangeDirection(Vector2 newDirection)
+    /// <param name="enumDirection">Направление.</param>
+    public void SetDirection(BallMovementDirections enumDirection)
     {
         Log.Message("Смена направления движения шара.");
 
-        newDirection.Normalize();
-        if (newDirection.magnitude < 1)
+        switch(enumDirection)
         {
-            Log.Warning($"Передано нулевое направление: {newDirection.normalized}.");
-            Log.Message("Отмена смены направления.");
-            return;
+            case BallMovementDirections.ToLeftBottom:
+                direction = new Vector2(-1, -1);
+                break;
+            case BallMovementDirections.ToLeftTop:
+                direction = new Vector2(-1, 1);
+                break;
+            case BallMovementDirections.ToRightBottom:
+                direction = new Vector2(1, -1);
+                break;
+            case BallMovementDirections.ToRightTop:
+                direction = new Vector2(1, 1);
+                break;
         }
-
-        direction = newDirection;
     }
 }
