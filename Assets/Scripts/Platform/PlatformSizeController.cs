@@ -19,6 +19,11 @@ public class PlatformSizeController : MonoBehaviour
         ChangeSize();
     }
 
+    private void Awake()
+    {
+        Destroy(this);
+    }
+
     #endregion
 
     void ChangeSize()
