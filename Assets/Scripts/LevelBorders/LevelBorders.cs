@@ -9,6 +9,8 @@ public static class LevelBorders
     static float topBorder = 0;
     static float bottomBorder = 0;
 
+    static bool initialized = false; //нет необходимости каждый новый уровень пересчитывать одно и то же.
+
     #endregion
 
     #region Properties
@@ -23,10 +25,18 @@ public static class LevelBorders
     public static void Initialize()
     {
         Log.Message("Установка границ.");
+        
+        if (initialized)
+        {
+            Log.Message("Границы уже рассчитаны.");
+            return;
+        }
 
         GetBorders(out leftBorder, out topBorder, screenHeight: Screen.height);
         GetBorders(out rightBorder, out bottomBorder, screenWidth: Screen.width);
-        
+
+        initialized = true;
+
         Log.Message(
             $"Левый край: {leftBorder}." +
             $"Правый край: {rightBorder}." +
