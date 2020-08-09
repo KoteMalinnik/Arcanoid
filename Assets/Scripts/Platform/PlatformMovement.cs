@@ -19,26 +19,10 @@ public class PlatformMovement : MonoBehaviour
 	[SerializeField] KeyCode keyToLeft = KeyCode.A;
 	[SerializeField] KeyCode keyToRight = KeyCode.D;
 
-	Transform cachedTransform = null;
+	new Transform transform = null;
 
-	float threshold_Left = 0;
-	float threshold_Right = 0;
-
-	#endregion
-
-	#region Properties
-
-	new Transform transform
-    {
-		get
-        {
-			if (cachedTransform == null) cachedTransform = base.transform.parent;
-			return cachedTransform;
-        }
-    }
-
-	bool LeftBorderIntersection => transform.position.x < threshold_Left;
-	bool RightBorderIntersection => transform.position.x > threshold_Right;
+	bool allowMovementToTheLeft = true;
+	bool allowMovementToTheRight = true;
 
 	#endregion
 
@@ -52,28 +36,20 @@ public class PlatformMovement : MonoBehaviour
 		if (keyToRight == KeyCode.None) Log.Warning("Клавиша перемещения платформы вправо не назначена.");
 	}
 
-    private void Start()
+    private void Awake()
     {
-		ScreenBorders.Initialize();
-
-		//не недо проводить одни и те же рассчеты в *BorderIntersection-свойствах
-		float platformHalfSizeX = transform.localScale.x / 2;
-
-		threshold_Left = ScreenBorders.point_TopLeft.x + platformHalfSizeX;
-		threshold_Right = ScreenBorders.point_BottomRight.x - platformHalfSizeX;
-		
-		PlatformBorders.UpdateBorders(transform);
+		transform = transform.parent;
 	}
 
     private void Update()
     {
-		if (!LeftBorderIntersection && Input.GetKey(keyToLeft)) Move(Direction.Left);
-		if (!RightBorderIntersection && Input.GetKey(keyToRight)) Move(Direction.Right);
+		if (allowMovementToTheLeft && Input.GetKey(keyToLeft)) Move(Direction.Left);
+		if (allowMovementToTheRight && Input.GetKey(keyToRight)) Move(Direction.Right);
 	}
 
-    #endregion
+	#endregion
 
-	void Move(Direction direction)
+	private void Move(Direction direction)
     {
 		float deltaPosition = movementSpeed * Time.deltaTime;
 		deltaPosition = direction == Direction.Left ? -deltaPosition : deltaPosition;
@@ -81,7 +57,11 @@ public class PlatformMovement : MonoBehaviour
 
 		var newPosition = new Vector2(transform.position.x + deltaPosition, transform.position.y);
 		transform.position = newPosition;
-
-		PlatformBorders.UpdateBorders(transform);
 	}
+
+	public void AllowMovement(bool toTheLeft, bool toTheRight)
+    {
+		allowMovementToTheLeft = toTheLeft;
+		allowMovementToTheRight = toTheRight;
+    }
 }
