@@ -5,11 +5,16 @@ public static class ScreenBorder
 {
     #region Events
 
+    public static event Action<MoveableBorder> OnScreenBorderCollisionEnter = null;
     public static event Action<MoveableBorder> OnScreenBorderCollision = null;
+    public static event Action<MoveableBorder> OnScreenBorderCollisionExit = null;
 
     #endregion
 
     #region Fields
+
+    static bool collisionEntered = false;
+    static bool collisionExited = true;
 
     static Border border = null;
     
@@ -39,7 +44,25 @@ public static class ScreenBorder
             objBorder.BottomRightPoint.x >= border.BottomRightPoint.x ||
             objBorder.BottomRightPoint.y <= border.BottomRightPoint.y)
         {
+            //Log.Message($"Касание границ экрана объектом {objBorder.name}.");
+
+            if (!collisionEntered)
+            {
+                collisionEntered = true;
+                collisionExited = false;
+                OnScreenBorderCollisionEnter?.Invoke(objBorder);
+                return;
+            }
+
             OnScreenBorderCollision?.Invoke(objBorder);
+            return;
+        }
+
+        if (!collisionExited)
+        {
+            collisionEntered = false;
+            collisionExited = true;
+            OnScreenBorderCollisionExit?.Invoke(objBorder);
         }
     }
 }
