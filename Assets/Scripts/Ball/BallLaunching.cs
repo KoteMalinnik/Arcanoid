@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(BallMovement))]
 public class BallLaunching : MonoBehaviour
 {
     enum OnLaunchDirection
@@ -47,7 +46,7 @@ public class BallLaunching : MonoBehaviour
     {
         Log.Message("Запуск шара.");
 
-        var ballMovement = GetComponent<BallMovement>();
+        var ballMovement = transform.parent.GetComponentInChildren<BallMovement>();
 
         BallMovementDirections targetDirection = BallMovementDirections.ToLeftTop;
 

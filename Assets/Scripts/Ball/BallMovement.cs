@@ -8,18 +8,18 @@ public class BallMovement : MonoBehaviour
     [Space(10)]
     [SerializeField] float movementSpeed = 1.0f;
 
-    Vector3 direction = Vector2.up;
+    Vector3 direction = Vector2.down;
     Transform cachedTransform = null;
 
     #endregion
 
     #region Properties
 
-    public new Transform transform
+    new Transform transform
     {
         get
         {
-            if (cachedTransform == null) cachedTransform = base.transform;
+            if (cachedTransform == null) cachedTransform = base.transform.parent;
             return cachedTransform;
         }
     }
@@ -35,12 +35,15 @@ public class BallMovement : MonoBehaviour
 
     private void Update()
     {
-        if (!canMove) return;
-
-        transform.position += direction * movementSpeed * Time.deltaTime;
+        if (canMove) Move();
     }
 
     #endregion
+
+    void Move()
+    {
+        transform.position += direction * movementSpeed * Time.deltaTime;
+    }
 
     /// <summary>
     /// Установит разрешения движения шара. Если true, то шар будет двигаться.
