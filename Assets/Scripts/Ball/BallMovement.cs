@@ -5,12 +5,18 @@ public class BallMovement : MonoBehaviour
 	#region Fields
 
 	[SerializeField] bool allowMovement = false;
-    [Space(10)]
     [SerializeField] float movementSpeed = 1.0f;
+    [SerializeField] BallMovementDirections enumDirection = BallMovementDirections.ToRightTop;
 
     Vector3 direction = Vector2.down;
 
     new Transform transform = null;
+
+    #endregion
+
+    #region Properties
+
+    public BallMovementDirections EnumDirection => enumDirection;
 
     #endregion
 
@@ -24,6 +30,7 @@ public class BallMovement : MonoBehaviour
     private void Awake()
     {
         transform = base.transform;
+        SetDirection(enumDirection);
     }
 
     private void Update()
@@ -55,7 +62,8 @@ public class BallMovement : MonoBehaviour
     {
         Log.Message("Смена направления движения шара.");
 
-        switch(enumDirection)
+        this.enumDirection = enumDirection;
+        switch (enumDirection)
         {
             case BallMovementDirections.ToLeftBottom:
                 direction = new Vector2(-1, -1);

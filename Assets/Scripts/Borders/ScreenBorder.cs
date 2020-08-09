@@ -5,9 +5,8 @@ public static class ScreenBorder
 {
     #region Events
 
-    public static event Action<MoveableBorder> OnScreenBorderCollisionEnter = null;
-    public static event Action<MoveableBorder> OnScreenBorderCollision = null;
-    public static event Action<MoveableBorder> OnScreenBorderCollisionExit = null;
+    public static event Action<MoveableBorder, BorderPosition> OnScreenBorderCollisionEnter = null;
+    public static event Action<MoveableBorder, BorderPosition> OnScreenBorderCollisionExit = null;
 
     #endregion
 
@@ -48,21 +47,38 @@ public static class ScreenBorder
 
             if (!collisionEntered)
             {
-                collisionEntered = true;
-                collisionExited = false;
-                OnScreenBorderCollisionEnter?.Invoke(objBorder);
+                OnCollisionEnter(objBorder);
                 return;
             }
 
-            OnScreenBorderCollision?.Invoke(objBorder);
             return;
         }
 
         if (!collisionExited)
         {
-            collisionEntered = false;
-            collisionExited = true;
-            OnScreenBorderCollisionExit?.Invoke(objBorder);
+            OnCollisionExit(objBorder);
         }
+    }
+
+    static void OnCollisionEnter(MoveableBorder objBorder)
+    {
+        collisionEntered = true;
+        collisionExited = false;
+        OnScreenBorderCollisionEnter?.Invoke(objBorder, GetBorderPosition(objBorder));
+    }
+
+    static void OnCollisionExit(MoveableBorder objBorder)
+    {
+        collisionEntered = false;
+        collisionExited = true;
+        OnScreenBorderCollisionExit?.Invoke(objBorder, GetBorderPosition(objBorder));
+    }
+
+    static BorderPosition GetBorderPosition(MoveableBorder objBorder)
+    {
+        if (objBorder.TopLeftPoint.x <= border.TopLeftPoint.x) return BorderPosition.Left;
+        if (objBorder.TopLeftPoint.y >= border.TopLeftPoint.y) return BorderPosition.Top;
+        if (objBorder.BottomRightPoint.x >= border.BottomRightPoint.x) return BorderPosition.Right;
+        return BorderPosition.Bottom;
     }
 }

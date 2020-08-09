@@ -15,7 +15,7 @@ public class PlatformController : MonoBehaviour
 
     private void Awake()
     {
-		movement = GetComponentInChildren<PlatformMovement>();
+		movement = GetComponent<PlatformMovement>();
 	}
 
 	private void OnEnable()
@@ -32,9 +32,11 @@ public class PlatformController : MonoBehaviour
 
 	#endregion
 
-	void StopMovementAtDirection(MoveableBorder border)
+	void StopMovementAtDirection(MoveableBorder border, BorderPosition borderPosition)
     {
 		if (border.gameObject != gameObject) return;
+
+		Log.Message(borderPosition);
 
 		if (border.transform.position.x > 0) //платформа уперлась в правый край экрана
         {
@@ -50,8 +52,8 @@ public class PlatformController : MonoBehaviour
 		}
 	}
 
-	void AllowMovementAtAllDirections(MoveableBorder border)
-    {
+	void AllowMovementAtAllDirections(MoveableBorder border, BorderPosition borderPosition)
+	{
 		if (border.gameObject != gameObject) return;
 
 		movement.AllowMovement(true, true);

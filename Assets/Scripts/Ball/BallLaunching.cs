@@ -2,15 +2,8 @@
 
 public class BallLaunching : MonoBehaviour
 {
-    enum OnLaunchDirection
-    {
-        ToLeftTop,
-        ToRightTop
-    }
-
     #region Fields
 
-    [SerializeField] OnLaunchDirection onLaunchDirection = OnLaunchDirection.ToLeftTop;
     [SerializeField] KeyCode launchKey = KeyCode.Space;
 
     bool isLaunched = false;
@@ -47,19 +40,6 @@ public class BallLaunching : MonoBehaviour
         Log.Message("Запуск шара.");
 
         var ballMovement = transform.GetComponent<BallMovement>();
-
-        BallMovementDirections targetDirection = BallMovementDirections.ToLeftTop;
-        switch (onLaunchDirection)
-        {
-            case OnLaunchDirection.ToLeftTop:
-                targetDirection = BallMovementDirections.ToLeftTop;
-                break;
-            case OnLaunchDirection.ToRightTop:
-                targetDirection = BallMovementDirections.ToRightTop;
-                break;
-        }
-
-        ballMovement.SetDirection(targetDirection);
         ballMovement.AllowMovement(true);
     }
     #endregion
