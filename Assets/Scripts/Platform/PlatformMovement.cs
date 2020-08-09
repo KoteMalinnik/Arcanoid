@@ -38,7 +38,7 @@ public class PlatformMovement : MonoBehaviour
 
     private void Awake()
     {
-		transform = transform.parent;
+		transform = base.transform;
 	}
 
     private void Update()

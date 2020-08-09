@@ -3,69 +3,69 @@ using UnityEngine;
 
 public class BallBorderIntersectionChecker : MonoBehaviour
 {
-    #region Events
+    //#region Events
 
-    /// <summary>
-    /// Пересечение шаром границы экрана. Аргументы: контроллер движения шара, граница.
-    /// </summary>
-    public static event Action<BallMovement> OnBorderIntersection = null;
+    ///// <summary>
+    ///// Пересечение шаром границы экрана. Аргументы: контроллер движения шара, граница.
+    ///// </summary>
+    //public static event Action<BallMovement> OnBorderIntersection = null;
 
-    #endregion
+    //#endregion
 
-    #region Fields
+    //#region Fields
 
-    float threshold_Left = 0;
-    float threshold_Right = 0;
-    float threshold_Top = 0;
-    float threshold_Bottom = 0;
+    //float threshold_Left = 0;
+    //float threshold_Right = 0;
+    //float threshold_Top = 0;
+    //float threshold_Bottom = 0;
 
-    Transform cachedTransform = null;
+    //Transform cachedTransform = null;
 
-    #endregion
+    //#endregion
 
-    #region Properties
+    //#region Properties
 
-    new Transform transform
-    {
-        get
-        {
-            if (cachedTransform == null) cachedTransform = base.transform.parent;
-            return cachedTransform;
-        }
-    }
+    //new Transform transform
+    //{
+    //    get
+    //    {
+    //        if (cachedTransform == null) cachedTransform = base.transform.parent;
+    //        return cachedTransform;
+    //    }
+    //}
 
-    bool LeftBorderIntersection => transform.position.x < threshold_Left;
-    bool RightBorderIntersection => transform.position.x > threshold_Right;
-    bool TopBorderIntersection => transform.position.y > threshold_Top;
-    bool BottomBorderIntersection => transform.position.y < threshold_Bottom;
+    //bool LeftBorderIntersection => transform.position.x < threshold_Left;
+    //bool RightBorderIntersection => transform.position.x > threshold_Right;
+    //bool TopBorderIntersection => transform.position.y > threshold_Top;
+    //bool BottomBorderIntersection => transform.position.y < threshold_Bottom;
 
-    #endregion
+    //#endregion
 
-    #region MonoBehaviour Callbacks
+    //#region MonoBehaviour Callbacks
 
-    private void Start()
-    {
-        ScreenBorders.Initialize();
+    //private void Start()
+    //{
+    //    ScreenBorders.Initialize();
 
-        //не недо проводить одни и те же рассчеты в *BorderIntersection-свойствах
-        Vector2 ballHalfSize = transform.localScale / 2;
+    //    //не недо проводить одни и те же рассчеты в *BorderIntersection-свойствах
+    //    Vector2 ballHalfSize = transform.localScale / 2;
         
-        threshold_Left = ScreenBorders.point_TopLeft.x + ballHalfSize.x;
-        threshold_Top = ScreenBorders.point_TopLeft.y - ballHalfSize.y;
+    //    threshold_Left = ScreenBorders.point_TopLeft.x + ballHalfSize.x;
+    //    threshold_Top = ScreenBorders.point_TopLeft.y - ballHalfSize.y;
 
-        threshold_Right = ScreenBorders.point_BottomRight.x - ballHalfSize.x;
-        threshold_Bottom = ScreenBorders.point_BottomRight.y + ballHalfSize.y;
-    }
+    //    threshold_Right = ScreenBorders.point_BottomRight.x - ballHalfSize.x;
+    //    threshold_Bottom = ScreenBorders.point_BottomRight.y + ballHalfSize.y;
+    //}
 
-    private void Update()
-    {
-        if (LeftBorderIntersection || RightBorderIntersection || TopBorderIntersection || BottomBorderIntersection)
-        {
-            Log.Message($"Пересечение границы. Позиция шара: {transform.position}.");
-            transform.gameObject.SetActive(false);
-            OnBorderIntersection?.Invoke(transform.GetComponentInChildren<BallMovement>());
-        }
-    }
+    //private void Update()
+    //{
+    //    if (LeftBorderIntersection || RightBorderIntersection || TopBorderIntersection || BottomBorderIntersection)
+    //    {
+    //        Log.Message($"Пересечение границы. Позиция шара: {transform.position}.");
+    //        transform.gameObject.SetActive(false);
+    //        OnBorderIntersection?.Invoke(transform.GetComponentInChildren<BallMovement>());
+    //    }
+    //}
 
-    #endregion
+    //#endregion
 }
