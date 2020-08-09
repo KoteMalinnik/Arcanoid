@@ -21,13 +21,13 @@ public class PlatformSizeController : MonoBehaviour
 
     private void Awake()
     {
-        Destroy(this);
+        Destroy(gameObject);
     }
 
     #endregion
 
     void ChangeSize()
     {
-        transform.localScale = new Vector2(sizeX, sizeY);
+        transform.parent.localScale = new Vector2(sizeX, sizeY);
     }
 }
