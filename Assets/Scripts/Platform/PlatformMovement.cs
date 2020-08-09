@@ -49,7 +49,12 @@ public class PlatformMovement : MonoBehaviour
 		if (keyToLeft == KeyCode.None) Log.Warning("Клавиша перемещения платформы влево не назначена.");
 		if (keyToRight == KeyCode.None) Log.Warning("Клавиша перемещения платформы вправо не назначена.");
 
-		maxDistanceFormCenter = Extencions.MinThreshold(maxDistanceFormCenter, 0);
+		maxDistanceFormCenter = Extencions.MinThreshold(maxDistanceFormCenter, transform.localScale.x / 2);
+	}
+
+    private void Awake()
+    {
+		maxDistanceFormCenter -= transform.localScale.x / 2; //учет размера платформы
 	}
 
     private void Update()
