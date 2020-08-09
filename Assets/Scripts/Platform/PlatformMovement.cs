@@ -56,8 +56,7 @@ public class PlatformMovement : MonoBehaviour
     {
 		maxDistanceFormCenter -= transform.localScale.x / 2; //учет размера платформы
 		
-		PlatformBorders.SetTopBorder(transform);
-		PlatformBorders.UpdateSideBorders(transform);
+		PlatformBorders.UpdateBorders(transform);
 	}
 
     private void Update()
@@ -80,6 +79,6 @@ public class PlatformMovement : MonoBehaviour
 		if (Mathf.Abs(newPosition.x) > maxDistanceFormCenter) return;
 
 		transform.position = newPosition;
-		PlatformBorders.UpdateSideBorders(transform);
+		PlatformBorders.UpdateBorders(transform);
 	}
 }
