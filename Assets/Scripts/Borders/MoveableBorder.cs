@@ -27,10 +27,11 @@ public class MoveableBorder: StaticBorder
 		transform = base.transform;
 	}
 
-    private void Update()
+    private new void Update()
     {
-		_border.Update(transform);
-	}
+		border.Update(transform);
+        base.Update();
+    }
 
     #endregion
 
