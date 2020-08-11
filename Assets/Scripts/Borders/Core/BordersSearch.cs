@@ -8,11 +8,13 @@ public static class BordersSearch
 
     static void Initialize()
     {
+        Log.Message("Инициализация списка рамок.");
         borders = new List<StaticBorder>();
         borders.AddRange(MonoBehaviour.FindObjectsOfType<StaticBorder>());
+        Log.Message("Рамок найдено: " + borders.Count);
     }
 
-    public static CollisionData FindAtDirection(Vector2 fromPoint, Vector2 direction, float duration = 5) //аналог Raycast(Ray ray, out Hit hit)
+    public static bool CollisionAtDirection(Vector2 fromPoint, Vector2 direction, out StaticBorder target, float duration = 5) //аналог Raycast(Ray ray, out Hit hit)
     {
         if (borders == null) Initialize();
 
@@ -35,23 +37,113 @@ public static class BordersSearch
          * 3. Сохранять только ближайший к точке fromPoint объект со StaticBorder
          */
 
-        //foreach(StaticBorder rect in borders)
-        //{
-        // rect.border
-        //}
+        target = null;
+        float distanceFromPointToTarget = 0;
+        Vector2 intersectionPoint = Vector2.zero;
 
-        return null;
+        for (int i = 0; i < borders.Count; i++)
+        {
+            if (CheckBorder(borders[i], fromPoint, direction, out intersectionPoint))
+            {
+                if (target == null)
+                {
+                    target = borders[i];
+                    Log.Message("Установка ближайшей рамки: " + target.name);
+                    distanceFromPointToTarget = Vector3.Distance(fromPoint, intersectionPoint);
+                    continue;
+                }
+                
+                if (distanceFromPointToTarget < Vector3.Distance(target.transform.position, intersectionPoint))
+                {
+                    target = borders[i];
+                    Log.Message("Установка ближайшей рамки: " + target.name);
+                }
+            }
+        }
+
+        if (target == null) return false;
+        return true;
     }
 
-    static bool Intersection(Vector2 startPos1, Vector2 endPos1, Vector2 startPos2, Vector2 endPos2, out Vector2 p)
+    static bool CheckBorder(StaticBorder checkingStaticBorder, Vector2 rayStart, Vector2 rayEnd, out Vector2 intersectionPoint)
     {
-        var v1 = (endPos2.x - startPos2.x) * (startPos1.y - startPos2.y) - (endPos2.y - startPos2.y) * (startPos1.x - startPos2.x);
-        var v2 = (endPos2.x - startPos2.x) * (endPos1.y - startPos2.y) - (endPos2.y - startPos2.y) * (endPos1.x - startPos2.x);
-        var v3 = (endPos1.x - startPos1.x) * (startPos2.y - startPos1.y) - (endPos1.y - startPos1.y) * (startPos2.x - startPos1.x);
-        var v4 = (endPos1.x - startPos1.x) * (endPos2.y - startPos1.y) - (endPos1.y - startPos1.y) * (endPos2.x - startPos1.x);
+        Log.Message($"Проверка рамки {checkingStaticBorder.name}");
 
-        p = Vector2.zero;
+        var border = checkingStaticBorder.border;
+        //смотрим, находится ли рамка border хотя бы частично в прямоугольнике (fromPoint, directionRay)
+        Rect directionalRect = new Rect(rayStart, rayEnd);
+        Rect borderRect = new Rect(border.Left, border.Bottom, border.Right - border.Left, border.Top - border.Bottom);
 
-        return v1 * v2 < 0 && v3 * v4 < 0;
+        if (!directionalRect.Overlaps(borderRect))
+        {
+            Log.Message($"Рамка {checkingStaticBorder.name}  не находится в области поиска.");
+            intersectionPoint = Vector2.zero;
+            return false;
+        }
+            
+        Log.Message($"Рамка {checkingStaticBorder.name} находится в области поиска.");
+        return RayIntersectionWithBorder(border, rayStart, rayEnd, out intersectionPoint);
+    }
+
+    static bool RayIntersectionWithBorder(BorderData border, Vector2 rayStart, Vector2 rayEnd, out Vector2 intersectionPoint)
+    {
+        Log.Message("Проверка пересечения с гранями.");
+
+        bool intersection = false;
+        intersectionPoint = Vector2.zero;
+        
+        Vector2 tempIntersectionPoint = Vector2.zero;
+        float minDistance = Vector2.Distance(rayStart, rayEnd);
+
+        Vector2 leftBottomPoint = new Vector2(border.Left, border.Bottom);
+        Vector2 leftTopPoint = border.TopLeftPoint;
+        Vector2 rightBottomPoint = border.BottomRightPoint;
+        Vector2 rightTopPoint = new Vector2(border.Right, border.Top);
+
+        if (LineExtensions.LinesIntersection(leftTopPoint, leftBottomPoint, rayStart, rayEnd, out tempIntersectionPoint))
+        {
+            Log.Message("Перечесение с левой гранью в точке " + tempIntersectionPoint);
+            intersectionPoint = NearestPoint(intersectionPoint, tempIntersectionPoint, rayStart, ref minDistance);
+            intersection = true;
+        }
+
+        if (LineExtensions.LinesIntersection(leftBottomPoint, rightBottomPoint, rayStart, rayEnd, out tempIntersectionPoint))
+        {
+            Log.Message("Перечесение с нижней гранью в точке " + tempIntersectionPoint);
+            intersectionPoint = NearestPoint(intersectionPoint, tempIntersectionPoint, rayStart, ref minDistance);
+            intersection = true;
+        }
+
+        if (LineExtensions.LinesIntersection(rightBottomPoint, rightTopPoint, rayStart, rayEnd, out tempIntersectionPoint))
+        {
+            Log.Message("Перечесение с правой гранью в точке " + tempIntersectionPoint);
+            intersectionPoint = NearestPoint(intersectionPoint, tempIntersectionPoint, rayStart, ref minDistance);
+            intersection = true;
+        }
+
+        if (LineExtensions.LinesIntersection(rightTopPoint, leftTopPoint, rayStart, rayEnd, out tempIntersectionPoint))
+        {
+            Log.Message("Перечесение с верхней гранью в точке " + tempIntersectionPoint);
+            intersectionPoint = NearestPoint(intersectionPoint, tempIntersectionPoint, rayStart, ref minDistance);
+            intersection = true;
+        }
+
+        if (!intersection) Log.Message("Пересечений с гранями не обнаружено.");
+        return intersection;
+    }
+
+    static Vector2 NearestPoint(Vector2 lastPoint, Vector2 newPoint, Vector2 rayStart, ref float lastDistance)
+    {
+        var distance = Vector2.Distance(newPoint, rayStart);
+
+        if (distance < lastDistance)
+        {
+            lastPoint = newPoint;
+            lastDistance = distance;
+
+            Log.Message("Установка ближайшей к началу луча точки пересечения: " + lastPoint);
+        }
+
+        return lastPoint;
     }
 }
