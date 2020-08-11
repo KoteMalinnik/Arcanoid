@@ -40,7 +40,7 @@ public class BallLaunching : MonoBehaviour
         Log.Message("Запуск шара.");
 
         var ballMovement = transform.GetComponent<BallMovement>();
-        ballMovement.AllowMovement(true);
+        ballMovement.AllowMovement();
     }
     #endregion
 }
