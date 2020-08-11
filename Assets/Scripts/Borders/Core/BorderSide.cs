@@ -1,4 +1,4 @@
-﻿public enum BorderPosition
+﻿public enum BorderSide
 {
     Left,
     Right,
