@@ -6,9 +6,8 @@ public class BallMovement : MonoBehaviour
 
 	[SerializeField] bool allowMovement = false;
     [SerializeField] float movementSpeed = 1.0f;
-    [SerializeField] BallMovementDirections enumDirection = BallMovementDirections.ToRightTop;
 
-    Vector3 direction = Vector2.down;
+    Vector3 direction = Directions.ToLeftTop;
 
     new Transform transform = null;
 
@@ -16,7 +15,7 @@ public class BallMovement : MonoBehaviour
 
     #region Properties
 
-    public BallMovementDirections EnumDirection => enumDirection;
+    public Vector2 Direction => direction;
 
     #endregion
 
@@ -30,7 +29,6 @@ public class BallMovement : MonoBehaviour
     private void Awake()
     {
         transform = base.transform;
-        SetDirection(enumDirection);
     }
 
     private void Update()
@@ -45,38 +43,27 @@ public class BallMovement : MonoBehaviour
         transform.position += direction * movementSpeed * Time.deltaTime;
     }
 
-    /// <summary>
-    /// Установит разрешения движения шара. Если true, то шар будет двигаться.
-    /// </summary>
-    /// <param name="premission">Разрешение движения.</param>
-    public void AllowMovement(bool premission)
+    #region Public Methods
+
+    public void AllowMovement()
     {
-        allowMovement = premission;
+        allowMovement = true;
+    }
+
+    public void DisallowMovement()
+    {
+        allowMovement = false;
     }
 
     /// <summary>
     /// Изменит направление движения шара.
     /// </summary>
     /// <param name="enumDirection">Направление.</param>
-    public void SetDirection(BallMovementDirections enumDirection)
+    public void SetDirection(Vector2 newDirection)
     {
-        Log.Message("Смена направления движения шара.");
-
-        this.enumDirection = enumDirection;
-        switch (enumDirection)
-        {
-            case BallMovementDirections.ToLeftBottom:
-                direction = new Vector2(-1, -1);
-                break;
-            case BallMovementDirections.ToLeftTop:
-                direction = new Vector2(-1, 1);
-                break;
-            case BallMovementDirections.ToRightBottom:
-                direction = new Vector2(1, -1);
-                break;
-            case BallMovementDirections.ToRightTop:
-                direction = new Vector2(1, 1);
-                break;
-        }
+        Log.Message($"Смена направления движения шара: {direction} -> {newDirection}.");
+        direction = newDirection;
     }
+
+    #endregion
 }
