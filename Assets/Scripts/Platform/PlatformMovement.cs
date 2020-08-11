@@ -2,12 +2,6 @@
 
 public class PlatformMovement : MonoBehaviour
 {
-	enum Direction
-    {
-		Left,
-		Right
-    }
-
 	#region Fields
 
 	[SerializeField] float movementSpeed = 1.0f;
@@ -21,8 +15,14 @@ public class PlatformMovement : MonoBehaviour
 
 	new Transform transform = null;
 
-	bool allowMovementToTheLeft = true;
-	bool allowMovementToTheRight = true;
+	float movementThreshold = 0;
+
+	#endregion
+
+	#region Properties
+
+	bool allowMovementToTheLeft => transform.position.x > -movementThreshold;
+	bool allowMovementToTheRight => transform.position.x < movementThreshold;
 
 	#endregion
 
@@ -39,29 +39,25 @@ public class PlatformMovement : MonoBehaviour
     private void Awake()
     {
 		transform = base.transform;
+
+		Vector2 screenTopLeftPoint = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0));
+		movementThreshold = -screenTopLeftPoint.x - transform.localScale.x / 2;
 	}
 
     private void Update()
     {
-		if (allowMovementToTheLeft && Input.GetKey(keyToLeft)) Move(Direction.Left);
-		if (allowMovementToTheRight && Input.GetKey(keyToRight)) Move(Direction.Right);
+		if (allowMovementToTheLeft && Input.GetKey(keyToLeft)) Move(-1);
+		if (allowMovementToTheRight && Input.GetKey(keyToRight)) Move(1);
 	}
 
 	#endregion
 
-	private void Move(Direction direction)
+	private void Move(int direction)
     {
-		float deltaPosition = movementSpeed * Time.deltaTime;
-		deltaPosition = direction == Direction.Left ? -deltaPosition : deltaPosition;
+		float deltaPosition = direction * movementSpeed * Time.deltaTime;
 		if (inverce) deltaPosition = -deltaPosition;
 
 		var newPosition = new Vector2(transform.position.x + deltaPosition, transform.position.y);
 		transform.position = newPosition;
 	}
-
-	public void AllowMovement(bool toTheLeft, bool toTheRight)
-    {
-		allowMovementToTheLeft = toTheLeft;
-		allowMovementToTheRight = toTheRight;
-    }
 }
