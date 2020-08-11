@@ -35,26 +35,26 @@ public class MoveableBorder: StaticBorder
 
     #endregion
 
-    public void CheckCollisionWith(MoveableBorder objBorder)
+    public void CheckCollisionWith(StaticBorder objBorder)
     {
         if (Intersection(objBorder.border))
         {
-            if (!collisionEntered)
+            if (!collisionExited)
             {
-                CollisionEnter(objBorder);
+                CollisionExit(objBorder);
                 return;
             }
 
             return;
         }
 
-        if (!collisionExited)
+        if (!collisionEntered)
         {
-            CollisionExit(objBorder);
+            CollisionEnter(objBorder);
         }
     }
 
-    void CollisionEnter(MoveableBorder objBorder)
+    void CollisionEnter(StaticBorder objBorder)
     {
         Log.Message($"{name}.OnCollisionEnter: {objBorder.name}.");
         collisionEntered = true;
@@ -62,7 +62,7 @@ public class MoveableBorder: StaticBorder
         OnBorderCollisionEnter?.Invoke(objBorder);
     }
 
-    void CollisionExit(MoveableBorder objBorder)
+    void CollisionExit(StaticBorder objBorder)
     {
         Log.Message($"{name}.OnCollisionExit: {objBorder.name}.");
         collisionEntered = false;
@@ -72,10 +72,10 @@ public class MoveableBorder: StaticBorder
 
     bool Intersection(BorderData otherBorder)
     {
-        return (
-            border.TopLeftPoint.y < otherBorder.BottomRightPoint.y ||
-            border.BottomRightPoint.y > otherBorder.TopLeftPoint.y ||
-            border.BottomRightPoint.x < otherBorder.TopLeftPoint.x ||
-            border.TopLeftPoint.x > otherBorder.BottomRightPoint.x);
+        return
+            border.Top < otherBorder.Bottom ||
+            border.Bottom > otherBorder.Top ||
+            border.Right < otherBorder.Left ||
+            border.Left > otherBorder.Right;
     }
 }

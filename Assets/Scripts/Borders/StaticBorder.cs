@@ -26,15 +26,15 @@ public class StaticBorder: MonoBehaviour
 		Log.Message($"Левый верхний край: {_border.TopLeftPoint}. Правый нижний край: {_border.BottomRightPoint}.");
 	}
 
-#if UNITY_EDITOR
 	protected void Update()
     {
+#if UNITY_EDITOR
 		Debug.DrawLine(TopLeftPoint, new Vector2(TopLeftPoint.x, BottomRightPoint.y), Color.red);
 		Debug.DrawLine(TopLeftPoint, new Vector2(BottomRightPoint.x, TopLeftPoint.y), Color.red);
 		Debug.DrawLine(BottomRightPoint, new Vector2(BottomRightPoint.x, TopLeftPoint.y), Color.red);
 		Debug.DrawLine(BottomRightPoint, new Vector2(TopLeftPoint.x, BottomRightPoint.y), Color.red);
-	}
 #endif
+	}
 
 	#endregion
 }
