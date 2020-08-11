@@ -31,9 +31,10 @@ public class BallLaunching : MonoBehaviour
             Log.Message("Кнопка запуска была нажата.");
 
             Launch();
-            isLaunched = true;
         }
     }
+
+    #endregion
 
     void Launch()
     {
@@ -41,6 +42,12 @@ public class BallLaunching : MonoBehaviour
 
         var ballMovement = transform.GetComponent<BallMovement>();
         ballMovement.AllowMovement();
+
+        isLaunched = true;
     }
-    #endregion
+    
+    public void Unlaunch()
+    {
+        isLaunched = false;
+    }
 }
