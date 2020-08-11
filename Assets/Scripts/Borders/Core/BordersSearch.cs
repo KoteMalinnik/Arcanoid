@@ -14,9 +14,18 @@ public static class BordersSearch
         Log.Message("Рамок найдено: " + borders.Count);
     }
 
-    public static bool CollisionAtDirection(Vector2 fromPoint, Vector2 direction, out StaticBorder target, float duration = 5) //аналог Raycast(Ray ray, out Hit hit)
+    //аналог Raycast(Ray ray, out Hit hit)
+    public static bool CollisionAtDirection(
+        StaticBorder sender,
+        Vector2 fromPoint,
+        Vector2 direction,
+        out StaticBorder target,
+        out Vector2 intersectionPoint,
+        float duration = 5)
     {
         if (borders == null) Initialize();
+
+        Log.Message($"Поиск рамок из позиции {fromPoint} в направлении {direction}.");
 
         direction.Normalize();
         if (direction.Equals(Vector2.zero)) throw new ArgumentOutOfRangeException();
@@ -39,10 +48,12 @@ public static class BordersSearch
 
         target = null;
         float distanceFromPointToTarget = 0;
-        Vector2 intersectionPoint = Vector2.zero;
+        intersectionPoint = Vector2.zero;
 
         for (int i = 0; i < borders.Count; i++)
         {
+            if (sender == borders[i]) continue; //на случай, если луч будет пересекать собственную рамку
+
             if (CheckBorder(borders[i], fromPoint, direction, out intersectionPoint))
             {
                 if (target == null)
@@ -61,7 +72,15 @@ public static class BordersSearch
             }
         }
 
-        if (target == null) return false;
+        Log.Message("Поиск рамки завершен.");
+
+        if (target == null)
+        {
+            Log.Message("Рамок не найдено.");
+            return false;
+        }
+
+        Log.Message($"Ближайший объект: {target.name}. Точка коллизии: {intersectionPoint}.");
         return true;
     }
 
