@@ -119,50 +119,44 @@ public static class BordersSearch
         Vector2 rightBottomPoint = border.BottomRightPoint;
         Vector2 rightTopPoint = new Vector2(border.Right, border.Top);
 
+        Vector2 NearestPoint(Vector2 lastPoint)
+        {
+            Log.Message("Перечесение с гранью в точке " + tempIntersectionPoint);
+            var distance = Vector2.Distance(tempIntersectionPoint, rayStart);
+
+            if (distance < minDistance)
+            {
+                lastPoint = tempIntersectionPoint;
+                minDistance = distance;
+
+                Log.Message("Установка ближайшей к началу луча точки пересечения: " + lastPoint);
+            }
+
+            intersection = true;
+            return lastPoint;
+        }
+
         if (LineExtensions.LinesIntersection(leftTopPoint, leftBottomPoint, rayStart, rayEnd, out tempIntersectionPoint))
         {
-            Log.Message("Перечесение с левой гранью в точке " + tempIntersectionPoint);
-            intersectionPoint = NearestPoint(intersectionPoint, tempIntersectionPoint, rayStart, ref minDistance);
-            intersection = true;
+            intersectionPoint = NearestPoint(intersectionPoint);
         }
 
         if (LineExtensions.LinesIntersection(leftBottomPoint, rightBottomPoint, rayStart, rayEnd, out tempIntersectionPoint))
         {
-            Log.Message("Перечесение с нижней гранью в точке " + tempIntersectionPoint);
-            intersectionPoint = NearestPoint(intersectionPoint, tempIntersectionPoint, rayStart, ref minDistance);
-            intersection = true;
+            intersectionPoint = NearestPoint(intersectionPoint);
         }
 
         if (LineExtensions.LinesIntersection(rightBottomPoint, rightTopPoint, rayStart, rayEnd, out tempIntersectionPoint))
         {
-            Log.Message("Перечесение с правой гранью в точке " + tempIntersectionPoint);
-            intersectionPoint = NearestPoint(intersectionPoint, tempIntersectionPoint, rayStart, ref minDistance);
-            intersection = true;
+            intersectionPoint = NearestPoint(intersectionPoint);
         }
 
         if (LineExtensions.LinesIntersection(rightTopPoint, leftTopPoint, rayStart, rayEnd, out tempIntersectionPoint))
         {
-            Log.Message("Перечесение с верхней гранью в точке " + tempIntersectionPoint);
-            intersectionPoint = NearestPoint(intersectionPoint, tempIntersectionPoint, rayStart, ref minDistance);
-            intersection = true;
+            intersectionPoint = NearestPoint(intersectionPoint);
         }
 
         if (!intersection) Log.Message("Пересечений с гранями не обнаружено.");
         return intersection;
-    }
-
-    static Vector2 NearestPoint(Vector2 lastPoint, Vector2 newPoint, Vector2 rayStart, ref float lastDistance)
-    {
-        var distance = Vector2.Distance(newPoint, rayStart);
-
-        if (distance < lastDistance)
-        {
-            lastPoint = newPoint;
-            lastDistance = distance;
-
-            Log.Message("Установка ближайшей к началу луча точки пересечения: " + lastPoint);
-        }
-
-        return lastPoint;
     }
 }
