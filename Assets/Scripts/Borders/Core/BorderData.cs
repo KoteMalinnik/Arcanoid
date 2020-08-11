@@ -18,6 +18,11 @@ public class BorderData
 	public Vector2 TopLeftPoint => _TopLeftPoint;
 	public Vector2 BottomRightPoint => _BottomRightPoint;
 
+	public float Top => _TopLeftPoint.y;
+	public float Bottom => _BottomRightPoint.y;
+	public float Left => _TopLeftPoint.x;
+	public float Right => _BottomRightPoint.x;
+
 	#endregion
 
 	public BorderData(Transform transform)
