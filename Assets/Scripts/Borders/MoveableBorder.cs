@@ -1,38 +1,80 @@
 ﻿using UnityEngine;
+using System;
 
-public class MoveableBorder: MonoBehaviour
+public class MoveableBorder: StaticBorder
 {
-	#region Fields
+	#region Events
 
-	Border border = null;
-	new Transform transform = null;
+	public static event Action<StaticBorder> OnBorderCollisionEnter = null;
+	public static event Action<StaticBorder> OnBorderCollisionExit = null;
 
 	#endregion
 
-	#region Properties
+	#region Fields
 
-	public Vector2 TopLeftPoint => border.TopLeftPoint;
-	public Vector2 BottomRightPoint => border.BottomRightPoint;
+	bool collisionEntered = false;
+	bool collisionExited = true;
+
+	new Transform transform = null;
 
 	#endregion
 
 	#region MonoBehaviour Callbacks
 
-	private void Awake()
+	private new void Awake()
 	{
+		base.Awake();
 		transform = base.transform;
-		
-		Log.Message("Установка границ: " + name);
-		border = new Border();
-		border.UpdateBorder(transform);
-		Log.Message($"Левый верхний край: {border.TopLeftPoint}. Правый нижний край: {border.BottomRightPoint}.");
 	}
 
     private void Update()
     {
-		border.UpdateBorder(transform);
-		ScreenBorder.CheckIntersection(this);
+		_border.Update(transform);
 	}
 
     #endregion
+
+    public void CheckCollisionWith(MoveableBorder objBorder)
+    {
+        if (Intersection(objBorder.border))
+        {
+            if (!collisionEntered)
+            {
+                CollisionEnter(objBorder);
+                return;
+            }
+
+            return;
+        }
+
+        if (!collisionExited)
+        {
+            CollisionExit(objBorder);
+        }
+    }
+
+    void CollisionEnter(MoveableBorder objBorder)
+    {
+        Log.Message($"{name}.OnCollisionEnter: {objBorder.name}.");
+        collisionEntered = true;
+        collisionExited = false;
+        OnBorderCollisionEnter?.Invoke(objBorder);
+    }
+
+    void CollisionExit(MoveableBorder objBorder)
+    {
+        Log.Message($"{name}.OnCollisionExit: {objBorder.name}.");
+        collisionEntered = false;
+        collisionExited = true;
+        OnBorderCollisionExit?.Invoke(objBorder);
+    }
+
+    bool Intersection(BorderData otherBorder)
+    {
+        return (
+            border.TopLeftPoint.y < otherBorder.BottomRightPoint.y ||
+            border.BottomRightPoint.y > otherBorder.TopLeftPoint.y ||
+            border.BottomRightPoint.x < otherBorder.TopLeftPoint.x ||
+            border.TopLeftPoint.x > otherBorder.BottomRightPoint.x);
+    }
 }
