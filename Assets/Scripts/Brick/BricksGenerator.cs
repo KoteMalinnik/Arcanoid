@@ -32,9 +32,9 @@ public class BricksGenerator : MonoBehaviour
             Color.red, 0.01f);
     }
 
-    public void Generate(int maxDurablity)
+    public void Generate(int maxDurability)
     {
-        maxDurablity = (int)Extencions.MinThreshold(maxDurablity, 1);
+        maxDurability = (int)Extencions.MinThreshold(maxDurability, 1);
 
         Vector2 screenTopRightPoint = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
 
@@ -50,7 +50,7 @@ public class BricksGenerator : MonoBehaviour
 
         for (int i = 0; i < linesCount; i++)
         {
-            CreateLine(generatingPositionY, screenTopRightPoint, maxDurablity);
+            CreateLine(generatingPositionY, screenTopRightPoint, maxDurability);
             generatingPositionY -= deltaY;
         }
 
@@ -59,7 +59,7 @@ public class BricksGenerator : MonoBehaviour
 
     #endregion
 
-    void CreateLine(float positionY, Vector2 screenTopRightPoint, int maxDurablity)
+    void CreateLine(float positionY, Vector2 screenTopRightPoint, int maxDurability)
     {
         float screenWidth = 2 * screenTopRightPoint.x;
         float brickScaleX = brickPrefab.transform.localScale.x;
@@ -73,16 +73,16 @@ public class BricksGenerator : MonoBehaviour
 
         for (int i = 0; i < bricksCountX; i++)
         {
-            CreateBrick(generatingPosition, Random.Range(1, maxDurablity));
+            CreateBrick(generatingPosition, Random.Range(1, maxDurability));
             generatingPosition.x += deltaX;
         }
     }
 
-    void CreateBrick(Vector2 position, int durablity)
+    void CreateBrick(Vector2 position, int durability)
     {
         Log.Message($"Создание кирпича в позиции {position}.");
 
         var brickController = Instantiate(brickPrefab, transform).GetComponent<BrickController>();
-        brickController.Initialize(position, durablity);
+        brickController.Initialize(position, durability);
     }
 }
