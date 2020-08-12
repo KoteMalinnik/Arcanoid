@@ -39,7 +39,7 @@ public class PlatformMovement : MonoBehaviour
 		transform = base.transform;
 
 		Vector2 screenTopLeftPoint = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0));
-		movementThreshold = -screenTopLeftPoint.x - transform.localScale.x / 2;
+		movementThreshold = -screenTopLeftPoint.x - transform.localScale.x / 2 - 0.1f;
 	}
 
     private void Update()

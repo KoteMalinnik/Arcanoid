@@ -5,6 +5,7 @@ public class BallLaunching : MonoBehaviour
 {
     #region Fields
 
+    [SerializeField] Vector2 launchDirection = Directions.ToLeftBottom;
     [SerializeField] KeyCode launchKey = KeyCode.Space;
     bool isLaunched = false;
 
@@ -56,8 +57,11 @@ public class BallLaunching : MonoBehaviour
     void Launch()
     {
         Log.Message("Запуск шара.");
-        
-        GetComponent<BallMovement>().AllowMovement();
+
+        var ballMovement = GetComponent<BallMovement>();
+        ballMovement.SetDirection(launchDirection);
+        ballMovement.AllowMovement();
+
         isLaunched = true;
         Destroy(this);
     }

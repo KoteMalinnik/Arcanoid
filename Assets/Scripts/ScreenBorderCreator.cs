@@ -26,7 +26,11 @@ public class ScreenBorderCreator : MonoBehaviour
         wall.transform.parent = transform;
         wall.transform.position = position;
         wall.transform.localScale = scale;
-        var collider = wall.AddComponent<BoxCollider2D>();
-        collider.isTrigger = true;
+        
+        wall.AddComponent<BoxCollider2D>();
+
+        var rb = wall.AddComponent<Rigidbody2D>();
+        rb.isKinematic = true;
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
     }
 }
