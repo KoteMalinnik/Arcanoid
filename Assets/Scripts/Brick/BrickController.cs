@@ -8,7 +8,7 @@ public class BrickController : MonoBehaviour
     /// <summary>
     /// Событие, которое вызывается при уничтожении кирпича. Аргументом передается позиция центра кирпича.
     /// </summary>
-    public static event System.Action<Vector3> OnBrickDestroy = null;
+    public static event System.Action<Vector2> OnBrickDestroy = null;
 
     #endregion
 
