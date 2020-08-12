@@ -48,9 +48,9 @@ public class BallMovementController : MonoBehaviour
 		var reflectedDirection = Vector2.Reflect(movement.Direction, contact.normal);
 
 #if UNITY_EDITOR
-		Debug.DrawRay(contact.point, contact.normal, Color.red, 5);
-		Debug.DrawRay(contact.point, -movement.Direction, Color.blue, 5);
-		Debug.DrawRay(contact.point, reflectedDirection, Color.green, 5);
+		Debug.DrawRay(contact.point, contact.normal, Color.red, 1);
+		Debug.DrawRay(contact.point, -movement.Direction, Color.blue, 1);
+		Debug.DrawRay(contact.point, reflectedDirection, Color.green, 1);
 #endif
 
 		movement.SetDirection(reflectedDirection);
