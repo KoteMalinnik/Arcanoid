@@ -5,7 +5,7 @@ public class BallLaunching : MonoBehaviour
 {
     #region Fields
 
-    [SerializeField] Vector2 launchDirection = Directions.ToLeftBottom;
+    [SerializeField] Vector2 launchDirection = new Vector2(1, 1);
     [SerializeField] KeyCode launchKey = KeyCode.Space;
     bool isLaunched = false;
 
@@ -20,6 +20,12 @@ public class BallLaunching : MonoBehaviour
     private void OnValidate()
     {
         if (launchKey == KeyCode.None) Log.Warning("Клавиша запуска шара не назначена.");
+
+        launchDirection.y = Extencions.MinThreshold(launchDirection.y, 0.5f);
+        launchDirection.y = Extencions.MaxThreshold(launchDirection.y, 1f);
+
+        launchDirection.x = Extencions.MinThreshold(launchDirection.x, -1f);
+        launchDirection.x = Extencions.MaxThreshold(launchDirection.x, 1f);
     }
 
     private void Start()
@@ -27,7 +33,7 @@ public class BallLaunching : MonoBehaviour
         Log.Message("Ожидание нажатия кнопки запуска шара.");
 
         platformTransform = FindObjectOfType<PlatformController>().transform;
-        offsetY = platformTransform.localScale.y / 2 + transform.localScale.y / 2;
+        offsetY = platformTransform.localScale.y / 2 + transform.localScale.y / 2 + 0.1f;
 
         UpdatePosition();
     }
