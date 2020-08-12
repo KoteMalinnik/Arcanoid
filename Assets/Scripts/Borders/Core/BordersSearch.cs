@@ -21,7 +21,7 @@ public static class BordersSearch
         Vector2 direction,
         out StaticBorder target,
         out Vector2 intersectionPoint,
-        float duration = 5)
+        float duration = 0)
     {
         if (borders == null) Initialize();
 
@@ -93,7 +93,7 @@ public static class BordersSearch
         Rect directionalRect = new Rect(rayStart, rayEnd);
         Rect borderRect = new Rect(border.Left, border.Bottom, border.Right - border.Left, border.Top - border.Bottom);
 
-        if (!directionalRect.Overlaps(borderRect))
+        if (!directionalRect.Overlaps(borderRect, true))
         {
             Log.Message($"Рамка {checkingStaticBorder.name}  не находится в области поиска.");
             intersectionPoint = Vector2.zero;
