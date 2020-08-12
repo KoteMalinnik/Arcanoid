@@ -8,8 +8,6 @@ public class PlatformMovement : MonoBehaviour
 
 	[Header("Управление")]
 
-	[SerializeField] bool inverce = false;
-	[Space(10)]
 	[SerializeField] KeyCode keyToLeft = KeyCode.A;
 	[SerializeField] KeyCode keyToRight = KeyCode.D;
 
@@ -41,7 +39,7 @@ public class PlatformMovement : MonoBehaviour
 		transform = base.transform;
 
 		Vector2 screenTopLeftPoint = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0));
-		movementThreshold = -screenTopLeftPoint.x - transform.localScale.x / 2 - 0.1f;
+		movementThreshold = -screenTopLeftPoint.x - transform.localScale.x / 2;
 	}
 
     private void Update()
@@ -55,8 +53,6 @@ public class PlatformMovement : MonoBehaviour
 	private void Move(int direction)
     {
 		float deltaPosition = direction * movementSpeed * Time.deltaTime;
-		if (inverce) deltaPosition = -deltaPosition;
-
 		var newPosition = new Vector2(transform.position.x + deltaPosition, transform.position.y);
 		transform.position = newPosition;
 	}
