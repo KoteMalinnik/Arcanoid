@@ -11,21 +11,22 @@ public class ScreenBorderCreator : MonoBehaviour
         float width = -2 * topLeftPoint.x;
         float height = 2 * topLeftPoint.y;
 
-        CreateWall("Left", new Vector2(topLeftPoint.x - 0.5f, 0));
-        CreateWall("Right", new Vector2(-topLeftPoint.x + 0.5f, 0));
-        CreateWall("Top", new Vector2(0, topLeftPoint.y + 0.5f));
-        CreateWall("Bottom", new Vector2(0, -topLeftPoint.y - 0.5f));
+        CreateWall("Left", new Vector2(topLeftPoint.x - 0.5f, 0), new Vector2(1, height));
+        CreateWall("Right", new Vector2(-topLeftPoint.x + 0.5f, 0), new Vector2(1, height));
+        CreateWall("Top", new Vector2(0, topLeftPoint.y + 0.5f), new Vector2(width, 1));
+        CreateWall("Bottom", new Vector2(0, -topLeftPoint.y - 0.5f), new Vector2(width, 1));
 
         Destroy(this);
     }
 
 
-    void CreateWall(string goName, Vector2 position)
+    void CreateWall(string goName, Vector2 position, Vector2 scale)
     {
         GameObject wall = new GameObject(goName);
         wall.transform.parent = transform;
         wall.transform.position = position;
-
-        var edgeCollider = wall.AddComponent<EdgeCollider2D>();
+        wall.transform.localScale = scale;
+        var collider = wall.AddComponent<BoxCollider2D>();
+        collider.isTrigger = true;
     }
 }
