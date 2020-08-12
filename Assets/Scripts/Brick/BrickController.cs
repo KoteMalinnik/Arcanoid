@@ -2,46 +2,50 @@
 
 public class BrickController : MonoBehaviour
 {
-	#region Fields
+    #region Events
 
-	int durability = 1;
+    /// <summary>
+    /// Событие, которое вызывается при уничтожении кирпича. Аргументом передается позиция центра кирпича.
+    /// </summary>
+    public static event System.Action<Vector3> OnBrickDestroy = null;
 
     #endregion
 
-    #region Properties
+    #region Fields
 
-    int Durability
+    BrickData brickData = null;
+
+    #endregion
+
+    #region MonoBehaviour Callbacks
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        get { return durability; }
-        set
-        {
-            durability = value;
-            if (value <= 0) OnBrickDestroy();
-        }
+        Hit();
+    }
+
+    public void OnDestroy()
+    {
+        Log.Message("Уничтожение кирпича: " + name);
+        OnBrickDestroy?.Invoke(transform.position);
     }
 
     #endregion
-    
-    public void SetLifes(int durability)
-    {
-        Log.Message($"Установка прочности ({durability}) кирпича {name}.");
-        if (durability <= 0)
-        {
-            Log.Warning($"Значение прочности некорректно. Установка прочности в 1.");
-            durability = 1;
-        }
 
-        this.durability = durability;
+    public void Initialize(Vector2 position, int durability)
+    {
+        Log.Message($"Инициализация кирпича {name} в позиции {position}.");
+        transform.position = position;
+        brickData = new BrickData(durability, gameObject);
     }
 
     public void Hit()
     {
-        Log.Message($"Удар по кирпичу: {name}. Прочность: {Durability - 1}.");
-        Durability--;
-    }
+        Log.Message($"Удар по кирпичу: {name}.");
 
-    public void OnBrickDestroy()
-    {
-        Log.Message("Уничтожение кирпича: " + name);
+        if (brickData.ReduceDurability())
+        {
+            Destroy(gameObject);
+        }
     }
 }
