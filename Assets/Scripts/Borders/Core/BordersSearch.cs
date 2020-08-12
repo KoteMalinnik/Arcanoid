@@ -4,23 +4,22 @@ using System;
 
 public static class BordersSearch
 {
-    static List<StaticBorder> borders = null; 
+    static List<StaticCollider> borders = null; 
 
     static void Initialize()
     {
         Log.Message("Инициализация списка рамок.");
-        borders = new List<StaticBorder>();
-        borders.AddRange(MonoBehaviour.FindObjectsOfType<StaticBorder>());
+        borders = new List<StaticCollider>();
+        borders.AddRange(MonoBehaviour.FindObjectsOfType<StaticCollider>());
         Log.Message("Рамок найдено: " + borders.Count);
     }
 
     //аналог Raycast(Ray ray, out Hit hit)
     public static bool CollisionAtDirection(
-        StaticBorder sender,
+        StaticCollider sender,
         Vector2 fromPoint,
         Vector2 direction,
-        out StaticBorder target,
-        out Vector2 intersectionPoint,
+        out CollisionData collisionData,
         float duration = 0)
     {
         if (borders == null) Initialize();
@@ -46,9 +45,9 @@ public static class BordersSearch
          * 3. Сохранять только ближайший к точке fromPoint объект со StaticBorder
          */
 
-        target = null;
-        float distanceFromPointToTarget = 0;
-        intersectionPoint = Vector2.zero;
+        collisionData = null;
+        float distanceFromPointToTarget = endPoint.magnitude;
+        Vector2 intersectionPoint = Vector2.zero;
 
         for (int i = 0; i < borders.Count; i++)
         {
@@ -56,39 +55,32 @@ public static class BordersSearch
 
             if (CheckBorder(borders[i], fromPoint, direction, out intersectionPoint))
             {
-                if (target == null)
+                if (distanceFromPointToTarget > Vector3.Distance(fromPoint, intersectionPoint))
                 {
-                    target = borders[i];
-                    Log.Message("Установка ближайшей рамки: " + target.name);
+                    collisionData = new CollisionData(borders[i], intersectionPoint);
                     distanceFromPointToTarget = Vector3.Distance(fromPoint, intersectionPoint);
-                    continue;
-                }
-                
-                if (distanceFromPointToTarget < Vector3.Distance(target.transform.position, intersectionPoint))
-                {
-                    target = borders[i];
-                    Log.Message("Установка ближайшей рамки: " + target.name);
+                    Log.Message($"Установка ближайшей ({distanceFromPointToTarget}) рамки: {borders[i].name}");
                 }
             }
         }
 
         Log.Message("Поиск рамки завершен.");
 
-        if (target == null)
+        if (collisionData == null)
         {
             Log.Message("Рамок не найдено.");
             return false;
         }
 
-        Log.Message($"Ближайший объект: {target.name}. Точка коллизии: {intersectionPoint}.");
+        Log.Message($"Ближайший объект: {collisionData.CollisedBorder.name}. Точка коллизии: {intersectionPoint}.");
         return true;
     }
 
-    static bool CheckBorder(StaticBorder checkingStaticBorder, Vector2 rayStart, Vector2 rayEnd, out Vector2 intersectionPoint)
+    static bool CheckBorder(StaticCollider checkingStaticBorder, Vector2 rayStart, Vector2 rayEnd, out Vector2 intersectionPoint)
     {
         Log.Message($"Проверка рамки {checkingStaticBorder.name}");
 
-        var border = checkingStaticBorder.border;
+        var border = checkingStaticBorder.Border;
         //смотрим, находится ли рамка border хотя бы частично в прямоугольнике (fromPoint, directionRay)
         Rect directionalRect = new Rect(rayStart, rayEnd);
         Rect borderRect = new Rect(border.Left, border.Bottom, border.Right - border.Left, border.Top - border.Bottom);

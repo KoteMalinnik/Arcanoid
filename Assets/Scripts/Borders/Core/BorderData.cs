@@ -8,22 +8,26 @@ public class BorderData
 	float halfScaleX = 0;
 	float halfScaleY = 0;
 
-	Vector2 _TopLeftPoint = Vector2.zero;
-	Vector2 _BottomRightPoint = Vector2.zero;
-
 	#endregion
 
 	#region Properties
 
-	public Vector2 TopLeftPoint => _TopLeftPoint;
-	public Vector2 BottomRightPoint => _BottomRightPoint;
-
-	public float Top => _TopLeftPoint.y;
-	public float Bottom => _BottomRightPoint.y;
-	public float Left => _TopLeftPoint.x;
-	public float Right => _BottomRightPoint.x;
+	public float Top { get; private set; } = 0;
+	public float Bottom { get; private set; } = 0;
+	public float Left { get; private set; } = 0;
+	public float Right { get; private set; } = 0;
 
 	#endregion
+
+	#region Constructors
+
+	public BorderData(float Left, float Top, float Right, float Bottom)
+    {
+		this.Left = Left;
+		this.Top = Top;
+		this.Right = Right;
+		this.Bottom = Bottom;
+	}
 
 	public BorderData(Transform transform)
     {
@@ -33,12 +37,13 @@ public class BorderData
 		Update(transform);
 	}
 
+	#endregion
+
 	public void Update(Transform transform)
 	{
-		_TopLeftPoint.x = transform.position.x - halfScaleX;
-		_TopLeftPoint.y = transform.position.y + halfScaleY;
-
-		_BottomRightPoint.x = transform.position.x + halfScaleX;
-		_BottomRightPoint.y = transform.position.y - halfScaleY;
+		Left = transform.position.x - halfScaleX;
+		Top = transform.position.y + halfScaleY;
+		Right = transform.position.x + halfScaleX;
+		Bottom = transform.position.y - halfScaleY;
 	}
 }

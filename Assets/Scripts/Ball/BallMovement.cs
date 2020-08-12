@@ -7,7 +7,7 @@ public class BallMovement : MonoBehaviour
 	[SerializeField] bool allowMovement = false;
     [SerializeField] float movementSpeed = 1.0f;
 
-    Vector3 direction = Directions.ToLeftTop;
+    Vector3 direction = Directions.ToRightBottom;
 
     new Transform transform = null;
 

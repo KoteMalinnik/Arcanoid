@@ -26,6 +26,6 @@ public class ScreenBorderCreator : MonoBehaviour
         wall.transform.parent = transform;
         wall.transform.position = position;
         wall.transform.localScale = scale;
-        wall.AddComponent<StaticBorder>();
+        wall.AddComponent<StaticCollider>();
     }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class StaticBorder: MonoBehaviour
+public class StaticCollider: MonoBehaviour
 {
 	#region Fields
 
@@ -10,10 +10,7 @@ public class StaticBorder: MonoBehaviour
 
     #region Properties
 
-    public BorderData border => _border;
-
-	public Vector2 TopLeftPoint => _border.TopLeftPoint;
-	public Vector2 BottomRightPoint => _border.BottomRightPoint;
+    public BorderData Border => _border;
 
 	#endregion
 
@@ -23,12 +20,14 @@ public class StaticBorder: MonoBehaviour
 	{
 		Log.Message("Инициализация рамки: " + name);
 		_border = new BorderData(transform);
-		Log.Message($"Левый верхний край: {_border.TopLeftPoint}. Правый нижний край: {_border.BottomRightPoint}.");
 	}
 
 	protected void Update()
     {
 #if UNITY_EDITOR
+		Vector2 TopLeftPoint = new Vector2(Border.Left, Border.Top);
+		Vector2 BottomRightPoint = new Vector2(Border.Right, Border.Bottom);
+
 		Debug.DrawLine(TopLeftPoint, new Vector2(TopLeftPoint.x, BottomRightPoint.y), Color.red);
 		Debug.DrawLine(TopLeftPoint, new Vector2(BottomRightPoint.x, TopLeftPoint.y), Color.red);
 		Debug.DrawLine(BottomRightPoint, new Vector2(BottomRightPoint.x, TopLeftPoint.y), Color.red);
