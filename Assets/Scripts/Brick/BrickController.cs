@@ -36,6 +36,7 @@ public class BrickController : MonoBehaviour
     {
         Log.Message($"Инициализация кирпича {name} в позиции {position}.");
         transform.position = position;
+        name = durability.ToString();
         brickData = new BrickData(durability, gameObject);
     }
 
