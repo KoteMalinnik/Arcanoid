@@ -8,6 +8,11 @@ public class BonusGenerator : MonoBehaviour
     [Tooltip("Вероятностный порог появления бонуса. При 1 бонусы не появляются.")]
     [SerializeField] float probabilityThreshold = 0.9f;
 
+    [Space]
+    [Range(0.01f, 100f)]
+    [SerializeField] float bonusObjectMovementSpeed = 1;
+
+    [Space]
     [SerializeField] string bonusesSpritesFolder = "Assets\\Internal Assets\\Sprites\\Bonuses\\";
 
     #endregion
@@ -52,14 +57,14 @@ public class BonusGenerator : MonoBehaviour
         Log.Message("Генерация бонуса");
 
         BonusType bonusType = GetBonusType();
-        BonusContainer bonusObject = new GameObject($"Bonus_{bonusType}", typeof(BoxCollider2D)).AddComponent<BonusContainer>();
+        BonusController bonusObject = new GameObject($"Bonus_{bonusType}", typeof(BoxCollider2D)).AddComponent<BonusController>();
         bonusObject.transform.parent = transform;
         bonusObject.transform.position = position;
+        SetBonusObjectSprite(bonusObject.gameObject, bonusType);
 
         Log.Message("Генерация бонуса завершена. Объект создан: " + bonusObject.name);
 
-        SetBonusObjectSprite(bonusObject.gameObject, bonusType);
-        bonusObject.Initialize(bonusType);
+        bonusObject.Initialize(bonusType, bonusObjectMovementSpeed);
     }
 
     void SetBonusObjectSprite(GameObject bonusObject, BonusType bonusType)
