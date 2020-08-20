@@ -30,7 +30,7 @@ public class BallMovementController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-		if (collision.gameObject.name == "Bottom")
+		if (collision.gameObject.name.Equals("Bottom"))
         {
 			Log.Warning("КОНЕЦ ИГРЫ.");
 			movement.DisallowMovement();
@@ -41,6 +41,12 @@ public class BallMovementController : MonoBehaviour
 		if (collision.contactCount == 0)
         {
 			Log.Warning("Контактов не обнаружено");
+			return;
+        }
+
+		if (collision.gameObject.tag.Equals("Bonus"))
+        {
+            Log.Message("Касание шаром бонуса.");
 			return;
         }
 

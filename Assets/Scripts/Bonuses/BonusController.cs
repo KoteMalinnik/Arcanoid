@@ -40,6 +40,8 @@ public class BonusController : MonoBehaviour
     {
 		Log.Message("Инициализация объекта бонуса.");
 
+		tag = "Bonus";
+
 		this.bonusType = bonusType;
 		GetComponent<BonusMovement>().Initialize(movementSpeed);
 
