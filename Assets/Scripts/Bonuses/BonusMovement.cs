@@ -8,7 +8,7 @@ public class BonusMovement: MonoBehaviour
 	Vector2 newPosition = Vector2.zero;
 	float movementSpeed = 1;
 
-	float bottomBorder = -5;
+	float bottomBorder = -7;
 
 	#endregion
 
@@ -47,8 +47,6 @@ public class BonusMovement: MonoBehaviour
 
 		this.movementSpeed = movementSpeed <= 0 ? 1 : movementSpeed;
 		newPosition = transform.position;
-
-		bottomBorder = -Camera.main.orthographicSize - 2;
 
 		Log.Message("Скорость: " + this.movementSpeed);
 	}
