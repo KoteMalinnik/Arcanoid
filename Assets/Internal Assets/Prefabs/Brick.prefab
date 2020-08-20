@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efcc5fe3b1c069c47b52cb82c825c463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oneHitColor: {r: 1, g: 1, b: 1, a: 1}
+  maxDurabilityColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!212 &4794089323291020914
 SpriteRenderer:
   m_ObjectHideFlags: 0

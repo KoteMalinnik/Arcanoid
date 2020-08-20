@@ -32,6 +32,8 @@ public class BricksGenerator : MonoBehaviour
             Color.red, 0.01f);
     }
 
+    #endregion
+
     public void Generate(int maxDurability)
     {
         maxDurability = (int)Extencions.MinThreshold(maxDurability, 1);
@@ -56,8 +58,6 @@ public class BricksGenerator : MonoBehaviour
 
         Destroy(this);
     }
-
-    #endregion
 
     void CreateLine(float positionY, Vector2 screenTopRightPoint, int maxDurability)
     {
