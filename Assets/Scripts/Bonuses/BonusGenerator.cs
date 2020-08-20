@@ -28,11 +28,6 @@ public class BonusGenerator : MonoBehaviour
         BrickController.OnBrickDestroy -= CalculateBonusGenerationProbability;
     }
 
-    private void Start()
-    {
-        CalculateBonusGenerationProbability(Vector2.zero);
-    }
-
     #endregion
 
     void CalculateBonusGenerationProbability(Vector2 position)
