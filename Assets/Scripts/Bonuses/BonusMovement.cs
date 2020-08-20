@@ -8,6 +8,8 @@ public class BonusMovement: MonoBehaviour
 	Vector2 newPosition = Vector2.zero;
 	float movementSpeed = 1;
 
+	float bottomBorder = -5;
+
 	#endregion
 
 	#region Properties
@@ -29,12 +31,12 @@ public class BonusMovement: MonoBehaviour
 	{
 		newPosition.y -= movementSpeed * Time.deltaTime;
 		transform.position = newPosition;
-	}
 
-	private void OnBecameInvisible()
-	{
-		Log.Message("Касание платформы не было. Бонус вне экрана. Уничтожение.");
-		Destroy(gameObject);
+		if (transform.position.y < bottomBorder)
+        {
+			Log.Message("Касание платформы не было. Бонус вне экрана. Уничтожение.");
+			Destroy(gameObject);
+		}
 	}
 
 	#endregion
@@ -45,6 +47,8 @@ public class BonusMovement: MonoBehaviour
 
 		this.movementSpeed = movementSpeed <= 0 ? 1 : movementSpeed;
 		newPosition = transform.position;
+
+		bottomBorder = -Camera.main.orthographicSize - 2;
 
 		Log.Message("Скорость: " + this.movementSpeed);
 	}
