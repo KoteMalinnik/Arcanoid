@@ -46,6 +46,7 @@ public class BonusController : MonoBehaviour
 		GetComponent<BonusMovement>().Initialize(movementSpeed);
 
 		cachedCollider = GetComponent<BoxCollider2D>();
+		cachedCollider.isTrigger = true;
 		platformCollider = GameObject.FindObjectOfType<PlatformMovement>(true).GetComponent<BoxCollider2D>();
 
 		Log.Message("Инициализация объекта бонуса завершена.");

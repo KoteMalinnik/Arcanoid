@@ -44,12 +44,6 @@ public class BallMovementController : MonoBehaviour
 			return;
         }
 
-		if (collision.gameObject.tag.Equals("Bonus"))
-        {
-            Log.Message("Касание шаром бонуса.");
-			return;
-        }
-
 		var contact = collision.contacts[0];
 		var reflectedDirection = Vector2.Reflect(movement.Direction, contact.normal);
 
