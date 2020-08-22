@@ -44,15 +44,21 @@ public class BallMovementController : MonoBehaviour
     {
 		if (collision.gameObject.name.Equals("Bottom"))
         {
-			Log.Warning("КОНЕЦ ИГРЫ.");
-			movement.DisallowMovement();
+			Log.Warning("Касание Bottom.");
 			OnBallTouchesBottom?.Invoke();
+			Destroy(gameObject);
 			return;
         }
 
 		if (collision.contactCount == 0)
         {
 			Log.Warning("Контактов не обнаружено");
+			return;
+        }
+
+		if (collision.gameObject.tag.Equals(tag))
+        {
+			Log.Message("Столкновение с шаром. Игнорирование.");
 			return;
         }
 

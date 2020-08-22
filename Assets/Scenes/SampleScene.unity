@@ -155,7 +155,7 @@ MonoBehaviour:
   brickPrefab: {fileID: 111036727551036174, guid: b9bdcebda5051b84496c461323ef57b1, type: 3}
   nonGeneratingBoundY: 0
   offsetX: 0.2
-  offsetY: 0
+  offsetY: 0.2
 --- !u!4 &246111848
 Transform:
   m_ObjectHideFlags: 0
@@ -180,6 +180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 355865162}
   - component: {fileID: 355865161}
+  - component: {fileID: 355865163}
   m_Layer: 0
   m_Name: ---TEST---
   m_TagString: Untagged
@@ -213,6 +214,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &355865163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355865160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 619bb11afd93fdd43a957d0ad802ffb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,7 +317,7 @@ GameObject:
   - component: {fileID: 813417303}
   m_Layer: 0
   m_Name: Ball
-  m_TagString: Untagged
+  m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -523,7 +536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 994bb2cc11fc59d43ab1001764c45d81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  probabilityThreshold: 0.9
+  probabilityThreshold: 0
   bonusObjectMovementSpeed: 1.31
   bonusesSpritesFolder: Sprites\Bonuses\
 --- !u!4 &2022314407
@@ -573,6 +586,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f022d994832d53e43a9f5f50eb661b9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  increasingWidthStep: 1
+  maxWidth: 6
 --- !u!114 &6705506770522198996
 MonoBehaviour:
   m_ObjectHideFlags: 0
