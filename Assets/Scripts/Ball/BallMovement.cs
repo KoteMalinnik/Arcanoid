@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class BallMovement : MonoBehaviour
 {
@@ -38,11 +39,6 @@ public class BallMovement : MonoBehaviour
 
     #endregion
 
-    void Move()
-    {
-        transform.position += direction * movementSpeed * Time.deltaTime;
-    }
-
     #region Public Methods
 
     public void AllowMovement()
@@ -65,5 +61,16 @@ public class BallMovement : MonoBehaviour
         direction = newDirection;
     }
 
+    public void ChangeSpeed(float multipler)
+    {
+        Log.Message($"Изменение скорости движения шара. Множитель: {multipler}");
+        movementSpeed *= multipler;
+    }
+
     #endregion
+
+    void Move()
+    {
+        transform.position += direction * movementSpeed * Time.deltaTime;
+    }
 }

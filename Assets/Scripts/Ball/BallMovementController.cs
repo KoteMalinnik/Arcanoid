@@ -15,12 +15,24 @@ public class BallMovementController : MonoBehaviour
 
 	BallMovement movement = null;
 
-	#endregion
+    #endregion
 
 
-	#region MonoBehaviour Callbacks
+    #region MonoBehaviour Callbacks
 
-	private void Awake()
+    private void OnEnable()
+    {
+		BonusController.OnBonusReceive += Accelerate;
+		BonusController.OnBonusReceive += Slowdown;
+	}
+
+    private void OnDisable()
+    {
+		BonusController.OnBonusReceive -= Accelerate;
+		BonusController.OnBonusReceive -= Slowdown;
+	}
+
+    private void Awake()
 	{
 		Component check = null;
 		if (!TryGetComponent(typeof(BallLaunching), out check)) gameObject.AddComponent<BallLaunching>();
@@ -57,4 +69,20 @@ public class BallMovementController : MonoBehaviour
     }
 
     #endregion
+
+	void Accelerate(BonusType bonusType)
+    {
+		if (bonusType != BonusType.BallAcceleration) return;
+		
+		Log.Message("Ускорение.");
+		movement.ChangeSpeed(2);
+	}
+
+	void Slowdown(BonusType bonusType)
+    {
+		if (bonusType != BonusType.BallSlowdown) return;
+
+		Log.Message("Замедление.");
+		movement.ChangeSpeed(0.5f);
+	}
 }
