@@ -13,7 +13,7 @@ public class PlatformMovement : MonoBehaviour
 
 	new Transform transform = null;
 
-	float movementThreshold = 0;
+	float movementThreshold = 1;
 
 	#endregion
 
@@ -37,9 +37,7 @@ public class PlatformMovement : MonoBehaviour
     private void Awake()
     {
 		transform = base.transform;
-
-		Vector2 screenTopLeftPoint = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0));
-		movementThreshold = -screenTopLeftPoint.x - transform.localScale.x / 2 - 0.1f;
+		RecalculateThreshold(BonusType.PlatformWidthIncreasing);
 	}
 
     private void Update()
@@ -48,12 +46,32 @@ public class PlatformMovement : MonoBehaviour
 		if (allowMovementToTheRight && Input.GetKey(keyToRight)) Move(1);
 	}
 
-	#endregion
+    private void OnEnable()
+    {
+		BonusController.OnBonusReceive += RecalculateThreshold;    
+    }
 
-	private void Move(int direction)
+    private void OnDisable()
+    {
+		BonusController.OnBonusReceive -= RecalculateThreshold;
+	}
+
+    #endregion
+
+    private void Move(int direction)
     {
 		float deltaPosition = direction * movementSpeed * Time.deltaTime;
 		var newPosition = new Vector2(transform.position.x + deltaPosition, transform.position.y);
 		transform.position = newPosition;
+	}
+
+	void RecalculateThreshold(BonusType bonusType)
+    {
+		if (bonusType != BonusType.PlatformWidthIncreasing) return;
+
+		float rightScreenBorder = -Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)).x;
+		float sizeX = GetComponent<SpriteRenderer>().size.x;
+
+		movementThreshold = rightScreenBorder - sizeX / 2;
 	}
 }

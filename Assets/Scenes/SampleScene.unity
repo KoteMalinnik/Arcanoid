@@ -536,7 +536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 994bb2cc11fc59d43ab1001764c45d81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  probabilityThreshold: 0
+  probabilityThreshold: 0.8
   bonusObjectMovementSpeed: 1.31
   bonusesSpritesFolder: Sprites\Bonuses\
 --- !u!4 &2022314407
