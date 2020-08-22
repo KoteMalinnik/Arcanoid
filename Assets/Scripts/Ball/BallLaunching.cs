@@ -11,7 +11,6 @@ public class BallLaunching : MonoBehaviour
 
     Transform platformTransform = null;
     Vector2 launchPosition = Vector2.zero;
-    float offsetY = 0;
 
     #endregion
 
@@ -33,8 +32,6 @@ public class BallLaunching : MonoBehaviour
         Log.Message("Ожидание нажатия кнопки запуска шара.");
 
         platformTransform = FindObjectOfType<PlatformController>().transform;
-        offsetY = platformTransform.localScale.y / 2 + transform.localScale.y / 2 + 0.1f;
-
         UpdatePosition();
     }
 
@@ -55,8 +52,8 @@ public class BallLaunching : MonoBehaviour
 
     void UpdatePosition()
     {
-        launchPosition = platformTransform.position;
-        launchPosition.y += offsetY;
+        launchPosition.y = transform.position.y;
+        launchPosition.x = platformTransform.position.x;
         transform.position = launchPosition;
     }
 
