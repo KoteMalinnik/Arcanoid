@@ -31,7 +31,7 @@ public class BallLaunching : MonoBehaviour
     {
         Log.Message("Ожидание нажатия кнопки запуска шара.");
 
-        platformTransform = FindObjectOfType<PlatformController>().transform;
+        platformTransform = FindObjectOfType<PlatformWidthController>().transform;
         UpdatePosition();
     }
 
