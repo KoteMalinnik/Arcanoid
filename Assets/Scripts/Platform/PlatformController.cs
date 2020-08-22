@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlatformMovement))]
 public class PlatformController : MonoBehaviour
 {
@@ -17,15 +19,6 @@ public class PlatformController : MonoBehaviour
 		movement = GetComponent<PlatformMovement>();
 	}
 
-	private void OnEnable()
-	{
-
-	}
-
-	private void OnDisable()
-	{
-
-	}
 
     #endregion
 }

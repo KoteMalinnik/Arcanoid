@@ -41,7 +41,7 @@ public class BricksGenerator : MonoBehaviour
         Vector2 screenTopRightPoint = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
 
         float screenHeight = 2 * screenTopRightPoint.y;
-        float brickScaleY = brickPrefab.transform.localScale.y;
+        float brickScaleY = brickPrefab.GetComponent<BoxCollider2D>().size.y;
         float deltaY = offsetY + brickScaleY;
 
         float allowGeneratingWindow = screenHeight / 2 - nonGeneratingBoundY;
@@ -62,7 +62,7 @@ public class BricksGenerator : MonoBehaviour
     void CreateLine(float positionY, Vector2 screenTopRightPoint, int maxDurability)
     {
         float screenWidth = 2 * screenTopRightPoint.x;
-        float brickScaleX = brickPrefab.transform.localScale.x;
+        float brickScaleX = brickPrefab.GetComponent<BoxCollider2D>().size.x;
         float deltaX = offsetX + brickScaleX;
         int bricksCountX = (int)(screenWidth / deltaX);
         float screenSideOffset = (screenWidth - (deltaX * bricksCountX - offsetX)) / 2;
