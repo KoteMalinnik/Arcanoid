@@ -25,9 +25,9 @@ public class ScreenBorderCreator : MonoBehaviour
         GameObject wall = new GameObject(goName);
         wall.transform.parent = transform;
         wall.transform.position = position;
-        wall.transform.localScale = scale;
         
-        wall.AddComponent<BoxCollider2D>();
+        var collider = wall.AddComponent<BoxCollider2D>();
+        collider.size = scale;
 
         var rb = wall.AddComponent<Rigidbody2D>();
         rb.isKinematic = true;
