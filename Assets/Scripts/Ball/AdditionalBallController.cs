@@ -13,13 +13,13 @@ public class AdditionalBallController : MonoBehaviour
     private void OnEnable()
     {
         BonusPlatformTouchController.OnBonusReceive += CreateBall;
-        BallMovementController.OnBallTouchesBottom += DecrementAdditionalBallsCount;
+        BallCollisionController.OnBallTouchesBottom += DecrementAdditionalBallsCount;
     }
 
     private void OnDisable()
     {
         BonusPlatformTouchController.OnBonusReceive -= CreateBall;
-        BallMovementController.OnBallTouchesBottom -= DecrementAdditionalBallsCount;
+        BallCollisionController.OnBallTouchesBottom -= DecrementAdditionalBallsCount;
     }
 
     #endregion
