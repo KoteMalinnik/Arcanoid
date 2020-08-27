@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class BonusGenerator : MonoBehaviour
+public class BonusesGenerator : MonoBehaviour
 {
     #region Fields
 
@@ -14,10 +14,6 @@ public class BonusGenerator : MonoBehaviour
 
     [Space]
     [SerializeField] string bonusesSpritesFolder = "Assets\\Internal Assets\\Sprites\\Bonuses\\";
-
-    #endregion
-
-    #region Properties
 
     #endregion
 
