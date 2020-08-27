@@ -15,12 +15,12 @@ public class PlatformWidthController : MonoBehaviour
 
     private void OnEnable()
 	{
-		BonusController.OnBonusReceive += IncreaseWidth;
+		BonusPlatformTouchController.OnBonusReceive += IncreaseWidth;
 	}
 
 	private void OnDisable()
 	{
-		BonusController.OnBonusReceive -= IncreaseWidth;
+		BonusPlatformTouchController.OnBonusReceive -= IncreaseWidth;
 	}
 
     #endregion

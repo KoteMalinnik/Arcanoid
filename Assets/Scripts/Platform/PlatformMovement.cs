@@ -48,12 +48,12 @@ public class PlatformMovement : MonoBehaviour
 
     private void OnEnable()
     {
-		BonusController.OnBonusReceive += RecalculateThreshold;    
+		BonusPlatformTouchController.OnBonusReceive += RecalculateThreshold;    
     }
 
     private void OnDisable()
     {
-		BonusController.OnBonusReceive -= RecalculateThreshold;
+		BonusPlatformTouchController.OnBonusReceive -= RecalculateThreshold;
 	}
 
     #endregion

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(BonusMovement))]
-public class BonusController : MonoBehaviour
+public class BonusPlatformTouchController : MonoBehaviour
 {
 	#region Events
 

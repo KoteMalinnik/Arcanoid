@@ -57,7 +57,7 @@ public class BonusGenerator : MonoBehaviour
         Log.Message("Генерация бонуса");
 
         BonusType bonusType = GetBonusType();
-        BonusController bonusObject = new GameObject($"Bonus_{bonusType}", typeof(BoxCollider2D)).AddComponent<BonusController>();
+        BonusPlatformTouchController bonusObject = new GameObject($"Bonus_{bonusType}", typeof(BoxCollider2D)).AddComponent<BonusPlatformTouchController>();
         bonusObject.transform.parent = transform;
         bonusObject.transform.position = position;
         SetBonusObjectSprite(bonusObject.gameObject, bonusType);

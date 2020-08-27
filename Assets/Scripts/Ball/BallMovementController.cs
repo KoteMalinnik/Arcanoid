@@ -22,14 +22,14 @@ public class BallMovementController : MonoBehaviour
 
     private void OnEnable()
     {
-		BonusController.OnBonusReceive += Accelerate;
-		BonusController.OnBonusReceive += Slowdown;
+		BonusPlatformTouchController.OnBonusReceive += Accelerate;
+		BonusPlatformTouchController.OnBonusReceive += Slowdown;
 	}
 
     private void OnDisable()
     {
-		BonusController.OnBonusReceive -= Accelerate;
-		BonusController.OnBonusReceive -= Slowdown;
+		BonusPlatformTouchController.OnBonusReceive -= Accelerate;
+		BonusPlatformTouchController.OnBonusReceive -= Slowdown;
 	}
 
     private void Awake()
