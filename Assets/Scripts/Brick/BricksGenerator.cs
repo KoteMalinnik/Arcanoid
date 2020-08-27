@@ -56,7 +56,7 @@ public class BricksGenerator : MonoBehaviour
             generatingPositionY -= deltaY;
         }
 
-        Destroy(this);
+        Destroy(gameObject);
     }
 
     void CreateLine(float positionY, Vector2 screenTopRightPoint, int maxDurability)
