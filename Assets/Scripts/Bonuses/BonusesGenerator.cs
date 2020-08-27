@@ -15,21 +15,31 @@ public class BonusesGenerator : MonoBehaviour
     [Space]
     [SerializeField] string bonusesSpritesFolder = "Assets\\Internal Assets\\Sprites\\Bonuses\\";
 
+    bool generateBonuses = false;
+
     #endregion
 
     #region MonoBehaviour Callbacks
 
     private void OnEnable()
     {
+        if (!generateBonuses) return;
         BrickHitController.OnBrickDestroy += CalculateBonusGenerationProbability;
     }
 
     private void OnDisable()
     {
+        if (!generateBonuses) return;
         BrickHitController.OnBrickDestroy -= CalculateBonusGenerationProbability;
     }
 
     #endregion
+
+    public void GenerateBonusesState(bool state)
+    {
+        generateBonuses = state;
+        Log.Message("Генерация бонусов: " + state);
+    }
 
     void CalculateBonusGenerationProbability(Vector2 position)
     {
