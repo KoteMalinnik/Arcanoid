@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
+using System;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class BrickHitController : MonoBehaviour
 {
     #region Events
 
-    /// <summary>
-    /// Событие, которое вызывается при уничтожении кирпича. Аргументом передается позиция центра кирпича.
-    /// </summary>
-    public static event System.Action<Vector2> OnBrickDestroy = null;
+    public static event Action<Vector2> OnBrickDestroy = null;
+    public static event Action OnBrickCreate = null;
 
     #endregion
 
@@ -54,6 +53,8 @@ public class BrickHitController : MonoBehaviour
             spriteRenderer = GetComponent<SpriteRenderer>();
             UpdateColor();
         }
+
+        OnBrickCreate?.Invoke();
     }
 
     public void Hit()
