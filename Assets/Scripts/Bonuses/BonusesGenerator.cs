@@ -39,6 +39,8 @@ public class BonusesGenerator : MonoBehaviour
     {
         generateBonuses = state;
         Log.Message("Генерация бонусов: " + state);
+
+        if (!generateBonuses) Destroy(gameObject);
     }
 
     void CalculateBonusGenerationProbability(Vector2 position)
