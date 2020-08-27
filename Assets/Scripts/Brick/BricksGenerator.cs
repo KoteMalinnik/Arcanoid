@@ -82,7 +82,7 @@ public class BricksGenerator : MonoBehaviour
     {
         Log.Message($"Создание кирпича в позиции {position}.");
 
-        var brickController = Instantiate(brickPrefab, transform).GetComponent<BrickController>();
+        var brickController = Instantiate(brickPrefab, transform).GetComponent<BrickHitController>();
         brickController.Initialize(position, durability);
     }
 }

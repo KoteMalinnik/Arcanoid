@@ -25,12 +25,12 @@ public class BonusGenerator : MonoBehaviour
 
     private void OnEnable()
     {
-        BrickController.OnBrickDestroy += CalculateBonusGenerationProbability;
+        BrickHitController.OnBrickDestroy += CalculateBonusGenerationProbability;
     }
 
     private void OnDisable()
     {
-        BrickController.OnBrickDestroy -= CalculateBonusGenerationProbability;
+        BrickHitController.OnBrickDestroy -= CalculateBonusGenerationProbability;
     }
 
     #endregion

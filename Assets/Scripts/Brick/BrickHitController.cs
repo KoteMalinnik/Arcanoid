@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class BrickController : MonoBehaviour
+public class BrickHitController : MonoBehaviour
 {
     #region Events
 
