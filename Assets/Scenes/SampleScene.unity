@@ -154,8 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   brickPrefab: {fileID: 111036727551036174, guid: b9bdcebda5051b84496c461323ef57b1, type: 3}
   nonGeneratingBoundY: 0
-  offsetX: 0.5
-  offsetY: 0.5
+  offsetX: 0.2
+  offsetY: 0.2
 --- !u!4 &246111848
 Transform:
   m_ObjectHideFlags: 0

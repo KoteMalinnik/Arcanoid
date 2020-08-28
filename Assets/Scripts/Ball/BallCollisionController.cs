@@ -49,6 +49,7 @@ public class BallCollisionController : MonoBehaviour
 
 		var contact = collision.contacts[0];
 		var reflectedDirection = Vector2.Reflect(movement.Direction, contact.normal);
+		reflectedDirection = Directions.GetCorrectDirection(reflectedDirection);
 
 #if UNITY_EDITOR
 		Debug.DrawRay(contact.point, contact.normal, Color.red, 1);
