@@ -1,10 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
-	#region Fields
+    #region Events
 
-	[Range(1, 3)]
+    public static event Action OnGameWin = null;
+    public static event Action OnNextLevel = null;
+
+    #endregion
+
+    #region Fields
+
+    [Range(1, 3)]
 	[SerializeField] int level = 1;
 
     #endregion
@@ -16,22 +24,40 @@ public class LevelController : MonoBehaviour
         Log.Message("Уровень: " + level);
         var levelData = Levels.GetLevelData(level);
 
-        GenerateBricks(levelData);
-        GenerateBonusesState(levelData);
+        BricksGenerator bricksGenerator = GetComponentAtScene<BricksGenerator>();
+        bricksGenerator?.Generate(levelData.maxBrickDurability);
+
+        BonusesGenerator bonusesGenerator = GetComponentAtScene<BonusesGenerator>();
+        bonusesGenerator?.GenerateBonusesState(levelData.generateBonuses);
+    }
+
+    private void OnEnable()
+    {
+        BricksCounter.OnAllBricksDestroyed += NextLevel;
+    }
+
+    private void OnDisable()
+    {
+        BricksCounter.OnAllBricksDestroyed -= NextLevel;
     }
 
     #endregion
 
-    void GenerateBricks(LevelData levelData)
+    void NextLevel()
     {
-        BricksGenerator bricksGenerator = GetComponentAtScene<BricksGenerator>();
-        bricksGenerator?.Generate(levelData.maxBrickDurability);
-    }
+        Log.Message($"Уровень {level} пройден.");
+        
+        level++;
+        
+        if (level > 3)
+        {
+            Log.Message("Игра пройдена!");
+            OnGameWin?.Invoke();
+            return;
+        }
 
-    void GenerateBonusesState(LevelData levelData)
-    {
-        BonusesGenerator bonusesGenerator = GetComponentAtScene<BonusesGenerator>();
-        bonusesGenerator?.GenerateBonusesState(levelData.generateBonuses);
+        Log.Message("Следующий уровень: " + level);
+        OnNextLevel?.Invoke();
     }
 
     T GetComponentAtScene<T>() where T : MonoBehaviour
