@@ -1,19 +1,11 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour
 {
-    #region Events
-
-    public static event Action OnGameWin = null;
-    public static event Action OnNextLevel = null;
-
-    #endregion
-
     #region Fields
 
-    [Range(1, 3)]
-	[SerializeField] int level = 1;
+    static int Level = 1;
 
     #endregion
 
@@ -21,8 +13,9 @@ public class LevelController : MonoBehaviour
 
     private void Awake()
     {
-        Log.Message("Уровень: " + level);
-        var levelData = Levels.GetLevelData(level);
+        Log.Message("Уровень: " + Level);
+
+        var levelData = Levels.GetLevelData(Level);
 
         BricksGenerator bricksGenerator = GetComponentAtScene<BricksGenerator>();
         bricksGenerator?.Generate(levelData.maxBrickDurability);
@@ -45,19 +38,20 @@ public class LevelController : MonoBehaviour
 
     void NextLevel()
     {
-        Log.Message($"Уровень {level} пройден.");
+        Log.Message($"Уровень {Level} пройден.");
+
+        Level++;
         
-        level++;
-        
-        if (level > 3)
+        if (Level > 3)
         {
             Log.Message("Игра пройдена!");
-            OnGameWin?.Invoke();
+            Debug.Break();
             return;
         }
 
-        Log.Message("Следующий уровень: " + level);
-        OnNextLevel?.Invoke();
+        Log.Message("Следующий уровень: " + Level);
+        var scene = SceneManager.GetActiveScene();
+        SceneManager.LoadSceneAsync(scene.buildIndex, LoadSceneMode.Single);
     }
 
     T GetComponentAtScene<T>() where T : MonoBehaviour
